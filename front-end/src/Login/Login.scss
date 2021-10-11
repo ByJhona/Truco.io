@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #3cb371;
+  background-image: url("../Assents/fundo.svg");
+  background-size: 6.5rem;
+}
+
+.container-login {
+  width: 70vw;
+  height: 80vh;
+
+  background-color: #dc143c;
+  border-radius: 0.5rem;
+}
