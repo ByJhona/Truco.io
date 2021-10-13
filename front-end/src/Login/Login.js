@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
 import logo from '../Assents/logo.svg'
-import './Login.scss'
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
@@ -19,7 +18,7 @@ import {database} from '../util/firebase'
 
 
 import {useAuth} from '../Context/AuthContext'
-import { ref, set, get, child, onValue } from "firebase/database";
+import { ref, set, get, child, onValue, update, remove } from "firebase/database";
 
 
 
@@ -32,6 +31,7 @@ function Login(){
     
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
+    const [online, defineOnline] = useState(0)
     //const {signup} = useAuth()
 
     const signIn = () => {
@@ -40,8 +40,12 @@ function Login(){
             if (snapshot.exists()) {
                 //Chamar o jogo a partir daqui
               console.log(snapshot.val());
+              alert("Logado com sucesso")
+              update(ref(database, 'users/' + nickname), {
+                  status: true
+              })
             } else {
-              console.log("No data available");
+              alert("Usuário não encontrado no database");
             }
           }).catch((error) => {
             console.error(error);
@@ -63,11 +67,12 @@ function Login(){
         
         onValue(databaseRef, (snapshot) => {
             if(snapshot.exists()){
-                console.log("Usuário existente")
+                alert("Usuário existente")
             }else{
                 set(ref(database, 'users/' + nickNameAnonymous), {
                     nickname: nickNameAnonymous,
-                    password: ''
+                    password: '',
+                    status: true
                   });
 
             }
@@ -81,19 +86,75 @@ function Login(){
         
         onValue(databaseRef, (snapshot) => {
             if(snapshot.exists()){
-                console.log("Usuário existente")
+               alert("Usuário existente")
             }else{
                 set(ref(database, 'users/' + nickname), {
                     nickname: nickname,
-                    password: password
+                    password: password,
+                    status: true
                   });
 
-                  console.log(snapshot.val())
+                  alert("Logado com sucesso")
+                  setOnlineUsers(-1)
+                  
             }
         })
 
           
     };
+
+
+    
+    function setOnlineUsers(number){
+        const databaseRefGet = ref(database)
+        var amount = 0;
+
+        get(child(databaseRefGet, 'onlineUsers/amount')).then((snapshot) => {
+            if (snapshot.exists()) {
+                //Chamar o jogo a partir daqui
+              console.log(snapshot.val());
+              amount = snapshot.val()
+
+              const soma = amount + number; 
+              
+
+              update(ref(database, 'onlineUsers/'), {
+                amount: soma
+            })
+            } else {
+              alert("Erro desconhecido, lascou")
+            }
+          }).catch((error) => {
+            console.error(error);
+          });        
+        
+        
+    }
+
+    function getOnlineUsers(){
+        const databaseRefGet = ref(database)
+        var amount = 0;
+
+
+        get(child(databaseRefGet, 'onlineUsers/amount')).then((snapshot) => {
+            if (snapshot.exists()) {
+                alert(snapshot.val())
+                amount =  snapshot.val()
+            } else {
+              alert("Erro desconhecido, nada encontrado na base de dados, lascou")
+                amount =  -1;
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+
+
+        return amount
+    }
+
+    useEffect(()=>{
+        defineOnline(getOnlineUsers())
+    }, [])
 
 
 
@@ -103,6 +164,7 @@ function Login(){
             <div className="main">
                 <div className="header">
                     <InfoOutlinedIcon/>
+                    <h2>No momento há {online} pessoas online</h2>
                 </div>
 
                 <div className="body">
@@ -151,7 +213,7 @@ function Login(){
                 </div>
 
                 <div className="footer">
-
+                  
                 </div>
                 
             </div>
