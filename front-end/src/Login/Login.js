@@ -31,8 +31,6 @@ function Login(){
     
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
-    const [online, defineOnline] = useState(0)
-    //const {signup} = useAuth()
 
     const signIn = () => {
         const databaseRef = ref(database)
@@ -44,6 +42,9 @@ function Login(){
               update(ref(database, 'users/' + nickname), {
                   status: true
               })
+
+              addOnlineUsers()
+
             } else {
               alert("Usuário não encontrado no database");
             }
@@ -75,6 +76,9 @@ function Login(){
                     status: true
                   });
 
+                  addOnlineUsers()
+
+
             }
         })
           
@@ -95,7 +99,7 @@ function Login(){
                   });
 
                   alert("Logado com sucesso")
-                  setOnlineUsers(-1)
+                  addOnlineUsers()
                   
             }
         })
@@ -105,7 +109,7 @@ function Login(){
 
 
     
-    function setOnlineUsers(number){
+    function addOnlineUsers(){
         const databaseRefGet = ref(database)
         var amount = 0;
 
@@ -115,7 +119,7 @@ function Login(){
               console.log(snapshot.val());
               amount = snapshot.val()
 
-              const soma = amount + number; 
+              const soma = amount + 1; 
               
 
               update(ref(database, 'onlineUsers/'), {
@@ -130,32 +134,61 @@ function Login(){
         
         
     }
+    function removeOnlineUsers(){
+      const databaseRefGet = ref(database)
+      var amount = 0;
 
-    function getOnlineUsers(){
+      get(child(databaseRefGet, 'onlineUsers/amount')).then((snapshot) => {
+          if (snapshot.exists()) {
+              //Chamar o jogo a partir daqui
+            console.log(snapshot.val());
+            amount = snapshot.val()
+
+            const soma = amount - 1; 
+            
+
+            update(ref(database, 'onlineUsers/'), {
+              amount: soma
+          })
+          } else {
+            alert("Erro desconhecido, lascou")
+          }
+        }).catch((error) => {
+          console.error(error);
+        });        
+      
+      
+  }
+
+
+    async function getOnlineUsers(){
         const databaseRefGet = ref(database)
         var amount = 0;
 
 
         get(child(databaseRefGet, 'onlineUsers/amount')).then((snapshot) => {
             if (snapshot.exists()) {
-                alert(snapshot.val())
+                //alert(snapshot.val())
                 amount =  snapshot.val()
+                return amount
             } else {
               alert("Erro desconhecido, nada encontrado na base de dados, lascou")
                 amount =  -1;
+                return amount
             }
           }).catch((error) => {
             console.error(error);
           });
 
-
-        return amount
+        
     }
 
-    useEffect(()=>{
-        defineOnline(getOnlineUsers())
-    }, [])
-
+    const test = async () => {
+      const quantidade = await getOnlineUsers()
+      console.log(quantidade + '<<<<<<')
+      return quantidade
+      
+    }
 
 
     return(
@@ -164,7 +197,8 @@ function Login(){
             <div className="main">
                 <div className="header">
                     <InfoOutlinedIcon/>
-                    <h2>No momento há {online} pessoas online</h2>
+                    
+                    <h2>No momento há { (test().then((number) => number))} pessoas online</h2>
                 </div>
 
                 <div className="body">
