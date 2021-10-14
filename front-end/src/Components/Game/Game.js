@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
-import logo from '../Assents/logo.svg'
+import logo from '../../Assents/logo.svg'
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
@@ -14,10 +14,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-import {database} from '../util/firebase'
+import {database} from '../../util/firebase'
 
 
-import {useAuth} from '../Context/AuthContext'
 import { ref, set, get, child, onValue, update, remove } from "firebase/database";
 
 
@@ -31,6 +30,7 @@ function Login(){
     
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
+    const [online, setOnline] = useState(0)
 
     const signIn = () => {
         const databaseRef = ref(database)
@@ -161,44 +161,39 @@ function Login(){
   }
 
 
-    async function getOnlineUsers(){
+     (function getOnlineUsers(){
         const databaseRefGet = ref(database)
-        var amount = 0;
+        
 
 
         get(child(databaseRefGet, 'onlineUsers/amount')).then((snapshot) => {
             if (snapshot.exists()) {
-                //alert(snapshot.val())
-                amount =  snapshot.val()
-                return amount
+                
+                setOnline(snapshot.val())
             } else {
               alert("Erro desconhecido, nada encontrado na base de dados, lascou")
-                amount =  -1;
-                return amount
+                
+                setOnline(-1)
             }
           }).catch((error) => {
             console.error(error);
           });
 
         
-    }
+    })()
 
-    const test = async () => {
-      const quantidade = await getOnlineUsers()
-      console.log(quantidade + '<<<<<<')
-      return quantidade
-      
-    }
-
+    
+    
 
     return(
+      
         <div className="container-body">
             
             <div className="main">
                 <div className="header">
                     <InfoOutlinedIcon/>
                     
-                    <h2>No momento há { (test().then((number) => number))} pessoas online</h2>
+                    <h2>No momento há { online } pessoas online</h2>
                 </div>
 
                 <div className="body">
@@ -209,20 +204,30 @@ function Login(){
 
                     <TextField id="outlined-basic" 
                         label="Nome do usuário" 
+                        placeholder="Digite seu nickname"
                         variant="outlined" 
+                        
                         onChange={(data) => setNickname(data.target.value)} 
+                        style={{
+                          backgroundColor: '#aa3333', color:"white", textDecoration: "none", border: "none", fontWeight: "900"
+                            
+                            
+                        }}
                         InputProps={{
                         startAdornment: (
                         <InputAdornment position="start">
-                            <AccountCircleOutlinedIcon/>
+                            <AccountCircleOutlinedIcon 
+                            //style={{color:"white"}}
+                            />
                         </InputAdornment>
                     ),
                   }}/>
 
                 <TextField className="input" id="outlined-basic" 
                     label="Senha" 
+                    placeholder="Digite sua senha"
                     style={{
-                        borderColor: '#fff',
+                      backgroundColor: '#aa3333', color:"white", textDecoration: "none", border: "none", fontWeight: "900"
                         
                         
                     }}
@@ -235,13 +240,20 @@ function Login(){
                       </InputAdornment>
                     ),
                   }}/>
-                <Button type="submit" variant="outlined">Entrar</Button>
+                <Button                    
+                  style={{backgroundColor: '#ebeb00', color:"white", textDecoration: "none", border: "none", fontWeight: "900"}}
+                  type="submit" variant="outlined">Entrar
+                  
+                </Button>
                 <div className="fast-action">
                   <Button 
+                    style={{backgroundColor: '#ebeb00', color:"black", textDecoration: "none", border: "none", fontWeight: "900"}}
                     onClick={signInAnonymous}
                     variant="outlined">Jogar no modo anônimo</Button>
 
-                  <Button variant="outlined" onClick={signUp}>Cadastrar novo usuário</Button>
+                  <Button variant="outlined" onClick={signUp}
+                    style={{backgroundColor: '#ebeb00', color:"black", textDecoration: "none", border: "none", fontWeight: "900"}}
+                  >Cadastrar novo usuário</Button>
                 </div>
                 </form>
                 </div>

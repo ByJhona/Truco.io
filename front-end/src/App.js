@@ -1,14 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import {AuthProvider} from './Context/AuthContext'
-import Login from './Login/Login'
+import Login from './Components/Login/Login'
 
 
 function App() {
   return (
-    <AuthProvider>
+    
       <Login/>
-    </AuthProvider>
     
   );
 }
