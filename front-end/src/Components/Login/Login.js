@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
-import logo from '../../Assents/logo.svg'
+import logo from '../../Assents/logo3.png'
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
@@ -193,12 +193,14 @@ function Login(){
                 <div className="header">
                     <InfoOutlinedIcon/>
                     
-                    <h2>No momento há { online } pessoas online</h2>
+                    <h2>Há { online } pessoas online</h2>
                 </div>
 
                 <div className="body">
-
-                <img src={logo} alt="logo"/>
+                <div>
+                  <img src={logo} alt="logo" className="logo"/>
+                  <h1>Truco.io</h1>
+                </div>
 
                 <form onSubmit = { handleSubmit(signIn) }>
 
@@ -227,7 +229,7 @@ function Login(){
                     label="Senha" 
                     placeholder="Digite sua senha"
                     style={{
-                      backgroundColor: '#aa3333', color:"white", textDecoration: "none", border: "none", fontWeight: "900"
+                      backgroundColor: '#aa3333', textDecoration: "none", border: "none", borderRadius: '0.5rem', fontWeight: "900"
                         
                         
                     }}
@@ -241,18 +243,18 @@ function Login(){
                     ),
                   }}/>
                 <Button                    
-                  style={{backgroundColor: '#ebeb00', color:"white", textDecoration: "none", border: "none", fontWeight: "900"}}
+                  style={{backgroundColor: '#ebeb00', color:"#131313", textDecoration: "none", border: "none", fontWeight: "900", marginBottom: '-2rem', height: '3rem'}}
                   type="submit" variant="outlined">Entrar
                   
                 </Button>
                 <div className="fast-action">
                   <Button 
-                    style={{backgroundColor: '#ebeb00', color:"black", textDecoration: "none", border: "none", fontWeight: "900"}}
+                    style={{backgroundColor: '#aa3333', color:"#131313", textDecoration: "none", border: '1px solid #8f3131', fontWeight: "900", width: '120px'}}
                     onClick={signInAnonymous}
                     variant="outlined">Jogar no modo anônimo</Button>
 
                   <Button variant="outlined" onClick={signUp}
-                    style={{backgroundColor: '#ebeb00', color:"black", textDecoration: "none", border: "none", fontWeight: "900"}}
+                    style={{backgroundColor: '#aa3333',border: '1px solid #8f3131', color:"#131313", textDecoration: "none", fontWeight: "900", width: '120px'}}
                   >Cadastrar novo usuário</Button>
                 </div>
                 </form>
