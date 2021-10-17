@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom'
+
 import logo from '../../Assents/logo3.png'
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -242,11 +244,14 @@ function Login(){
                       </InputAdornment>
                     ),
                   }}/>
+
+                  <Link to="/game" style={{textDecoration: 'none'}}>
                 <Button                    
-                  style={{backgroundColor: '#ebeb00', color:"#131313", textDecoration: "none", border: "none", fontWeight: "900", marginBottom: '-2rem', height: '3rem'}}
+                  style={{backgroundColor: '#ebeb00', color:"#131313", textDecoration: "none", width: '100%', border: '1px solid #8f3131', fontWeight: "900", marginBottom: '-2rem', height: '3rem'}}
                   type="submit" variant="outlined">Entrar
                   
                 </Button>
+                </Link>
                 <div className="fast-action">
                   <Button 
                     style={{backgroundColor: '#aa3333', color:"#131313", textDecoration: "none", border: '1px solid #8f3131', fontWeight: "900", width: '120px'}}
