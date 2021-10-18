@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import logo from '../../Assents/logo2.png'
 
@@ -92,11 +92,12 @@ function Login(){
                     ),
                   }}/>
 
+
                   
                 <Button                    
                   style={{backgroundColor: '#ebeb00', color:"#131313", textDecoration: "none", width: '100%', border: '1px solid #8f3131', fontWeight: "900", marginBottom: '-2rem', height: '3rem'}}
                   variant="outlined"
-                  onClick={() => signIn(nickname)}>Entrar
+                onClick={() => signIn(nickname)}>Entrar
                   
                 </Button>
                 

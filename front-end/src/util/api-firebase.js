@@ -2,7 +2,7 @@ import {database} from './firebase'
 import React, {useContext, useEffect, useState} from 'react'
 import { ref, set, get, child, onValue, update, remove } from "firebase/database";
 
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 
 
@@ -127,4 +127,28 @@ export async function getOnlineUsers(){
       });
 
     
+}
+
+
+export const setDeckBD = ( deck ) => {
+
+    update(ref(database, 'users/Jhonatan/'), {deck});
+      
+};
+
+export function  getDeckBD(props) {
+    const databaseRef = ref(database);
+
+    get(child(databaseRef, 'users/Jhonatan/deck')).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val())
+            
+          props.setDeck(snapshot.val())
+            
+        } else {
+          alert("Erro desconhecido, nada encontrado na base de dados, lascou")
+            
+           
+        }
+    })
 }

@@ -2,6 +2,9 @@ import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
 import skolzera from '../../Assents/skolzera.png'
 
+import {setDeckBD} from '../../util/api-firebase'
+
+
 import'./Game.scss'
 import Docker from '../Docker/Docker'
 import Deck from '../deck'
@@ -17,30 +20,23 @@ function Game(){
 
     var deckA = []
     var deckB = []
-    var deckC = []
+    //var deckC = []
 
     setDeck();
-
+    //setDeckBD(deckA);
 
     function setDeck(){
         var j = 0;
-        for(var i = 0; i<  3; i++){
+        var i;
+        for(i = 0; i<  3; i++){
             deckA.push(deck.getCard(i));
             j = i;
-            
         }
 
-        for(var i = 0;  i < 3; i++){
+        for(i = 0;  i < 3; i++){
             deckB.push(deck.getCard(j));
             j = i;
         }
-
-        for(var i = 0; i < 3; i++){
-            deckC.push(deck.getCard(j));
-            j = i;
-        }
-
-
     }
 
 
@@ -54,6 +50,7 @@ function Game(){
                 
 
                 <img src={skolzera} alt="fundo" className="skolzera"/>
+                <Docker/>
 
                 
                 
