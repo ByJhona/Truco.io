@@ -11,7 +11,7 @@ import Deck from '../deck'
 
 
 function Game(){
-    let suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs'];
+    let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
     let values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
 
     var deck = new Deck();
@@ -23,6 +23,7 @@ function Game(){
     //var deckC = []
 
     setDeck();
+    
     //setDeckBD(deckA);
 
     function setDeck(){
