@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react'
 import './Docker.scss'
 import two_of_clubs from '../../Assents/Cards/2_of_clubs.svg'
 import {database} from '../../util/firebase'
+import {WatchRemoveCards} from '../../util/api-firebase'
+
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 
 import Carta from '../Carta/Carta'
@@ -14,65 +16,79 @@ export default function Docker(){
 
     const [deck, setDeck] = useState([])
 
+    const oi = []
+
+    const teste = {
+        card1: {
+            "suit" : "hearts",
+            "value" : '2'
+    }, "card2":{
+        "suit" : "hearts",
+        "value" : '2'
+    }, card3:{
+        "suit" : "hearts",
+            "value" : '2'
+
+    }}
+
+    
 
 
 // Remover duplicidade de funcoes get
-     useEffect(()=>{
-        
-            const databaseRef = ref(database, 'users/Jhonatan/deck');
-        
-            onChildRemoved(databaseRef, (() => {
-                get(databaseRef).then((snapshot) => {
-                    if (snapshot.exists()) {
-                      setDeck(snapshot.val())
-                      console.log(snapshot.val())
-                        
-                    } else {
-                        console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                        setDeck([])   
-            }})
-
-            }))
-        }
-, [])
-
-useEffect(()=> {
-    const databaseRef = ref(database, );
-
-    get(child(databaseRef, 'users/Jhonatan/deck')).then((snapshot) => {
-        if (snapshot.exists()) {
-          setDeck(snapshot.val())
-          console.log(snapshot.val())
+    useEffect(()=>{
+        console.log(teste.card1)
+        const databaseRef = ref(database, 'users/Jhonatan/deck');
+        const databaseRoot = ref(database)
+        onChildChanged(databaseRef, ((data) => {
             
-        } else {
-            console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-            setDeck([])   
-}})
+            get(databaseRef).then((snapshot) => {
+                console.log(snapshot.val())
+                if (snapshot.exists()) {
+                    setDeck(snapshot.val())
+                    
+                } else {
+                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                    setDeck([])   
+                }
+            })
+        }))
 
 
-},[])
+        get(child(databaseRoot, 'users/Jhonatan/deck')).then((snapshot) => {
+            console.log(snapshot.val())
+            if (snapshot.exists()) {
+              setDeck(snapshot.val())
+              
+                
+            } else {
+                console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                setDeck([])   
+            }}).catch(
+        setDeck([]))
 
+        
 
-    //getDeckBD()
+    }, [])
+
+    function verifica(data){
+        if(data.suit == "0"){
+            return false
+        }
+        return true
+    }
+
+    
+
+    //getDeckBD() 
     return(
         <div className="container-docker">
             
+            {
+                deck.map((data, index) => {
+                   if(verifica(data)) return <Carta suit={data.suit} value={data.value} id={index}/>
+                })
 
-            {deck.map((carta, index)=>{
-                return (
-                   
-                    <Carta value={carta.value} suit={carta.suit} id={index} key={index}/>
-                )
-            })}
-
-
-            
-            
-
-            
-            
-
-
+            }
             
             
         </div>

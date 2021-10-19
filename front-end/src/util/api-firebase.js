@@ -1,6 +1,6 @@
 import {database} from './firebase'
 import React, {useContext, useEffect, useState} from 'react'
-import { ref, set, get, child, onValue, update, remove } from "firebase/database";
+import { ref, set, get, child, onValue, update, remove, onChildRemoved } from "firebase/database";
 
 import { Redirect } from 'react-router-dom'
 
@@ -130,25 +130,33 @@ export async function getOnlineUsers(){
 }
 
 
-export const setDeckBD = ( deck ) => {
+export const setDeckBD = ( obj ) => {
+
+  const deck = {
+    0: obj[0],
+    1: obj[1],
+    2: obj[2]
+  }
 
     update(ref(database, 'users/Jhonatan/'), {deck});
       
 };
 
-export function  getDeckBD(props) {
-    const databaseRef = ref(database);
+export const WatchRemoveCards = () => {
+  const databaseRef = ref(database, 'users/Jhonatan/deck');
+  //const [deck1, setDeck] = useState(deck)
 
-    get(child(databaseRef, 'users/Jhonatan/deck')).then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val())
-            
-          props.setDeck(snapshot.val())
-            
-        } else {
-          alert("Erro desconhecido, nada encontrado na base de dados, lascou")
-            
-           
-        }
-    })
+        
+            onChildRemoved(databaseRef, (() => {
+                get(databaseRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                      return (snapshot.val())
+                      console.log(snapshot.val())
+                        
+                    } else {
+                        console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                        return []
+            }})
+
+            }))
 }

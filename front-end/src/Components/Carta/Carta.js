@@ -30,11 +30,11 @@ export default function Carta(props){
 
 
     function removeCardDB(id){
-        remove(ref(database, `users/Jhonatan/deck/${id}`), null)
+        alert(id)
+        update(ref(database, `users/Jhonatan/deck/${id}`), {value: '', suit: '0'})
     }
 
-    console.log(props.id)
-    console.log(props.suit)
+    
     
     return(
 

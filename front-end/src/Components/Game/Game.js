@@ -12,7 +12,7 @@ import Deck from '../deck'
 
 function Game(){
     let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-    let values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
+    let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
 
     var deck = new Deck();
     deck.createDeck(suits, values)
@@ -47,7 +47,7 @@ function Game(){
         <div className="container_body">
             
             <div className="main-Game">
-                {console.log(deckA)}
+                
                 
 
                 <img src={skolzera} alt="fundo" className="skolzera"/>
