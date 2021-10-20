@@ -15,28 +15,12 @@ export default function Docker(){
     
 
     const [deck, setDeck] = useState([])
-
-    const oi = []
-
-    const teste = {
-        card1: {
-            "suit" : "hearts",
-            "value" : '2'
-    }, "card2":{
-        "suit" : "hearts",
-        "value" : '2'
-    }, card3:{
-        "suit" : "hearts",
-            "value" : '2'
-
-    }}
-
     
 
 
 // Remover duplicidade de funcoes get
     useEffect(()=>{
-        console.log(teste.card1)
+        
         const databaseRef = ref(database, 'users/Jhonatan/deck');
         const databaseRoot = ref(database)
         onChildChanged(databaseRef, ((data) => {

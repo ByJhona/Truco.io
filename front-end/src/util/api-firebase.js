@@ -1,6 +1,6 @@
 import {database} from './firebase'
 import React, {useContext, useEffect, useState} from 'react'
-import { ref, set, get, child, onValue, update, remove, onChildRemoved } from "firebase/database";
+import { ref, set, get, child, onValue, update, remove, onChildRemoved, onChildChanged } from "firebase/database";
 
 import { Redirect } from 'react-router-dom'
 
@@ -142,6 +142,8 @@ export const setDeckBD = ( obj ) => {
       
 };
 
+//nao usada essa funcao debaixo
+
 export const WatchRemoveCards = () => {
   const databaseRef = ref(database, 'users/Jhonatan/deck');
   //const [deck1, setDeck] = useState(deck)
@@ -159,4 +161,47 @@ export const WatchRemoveCards = () => {
             }})
 
             }))
+}
+
+export function setDeck(deck){
+  update(ref(database, 'sala01/'), {deck});
+}
+
+export function setRoom(room, desk, deck, players, count){
+  update(ref(database, 'rooms/' + room), {desk, deck, players, count});
+
+}
+
+export function getRooms(){
+  const databaseRef = ref(database, 'users/rooms/');
+
+        
+            onChildChanged(databaseRef, (() => {
+                get(databaseRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                      alert(snapshot.val())
+                      return (snapshot.val())
+                      
+                        
+                    } else {
+                        console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                        return []
+            }})
+
+            }))
+}
+
+
+export function contaMaisUmUsuario(){
+  const databaseRef = ref(database, 'rooms/SALA03/count');
+
+  get(databaseRef).then((data)=>{
+    var count = data.val() + 1;
+    console.log(data)
+    update(ref(database, 'rooms/SALA03/'), {count});
+
+  })
+
+  
+
 }
