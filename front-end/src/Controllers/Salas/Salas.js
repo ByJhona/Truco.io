@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import skolzera from '../../Assents/skolzera.png'
 
 import {getRooms, setRoom, contaMaisUmUsuario} from '../../util/api-firebase'
-import { ref, set, get, child, onValue, update, remove, onChildChanged } from "firebase/database";
+import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildAdded } from "firebase/database";
 import {database} from '../../util/firebase'
 
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Link, Redirect, useLocation  } from 'react-router-dom'
+import CardSalas from '../../Components/CardSalas/CardSalas'
 
 //Import de model
 import Deck from '../../Model/Deck.model'
@@ -21,60 +22,16 @@ import'./Salas.scss'
 //Import dos models
 
 
-function Salas(){
+function Salas(props){
+    //const location = useLocation()
     const [salas, setSalas] = useState([]);
-    var array = []
-    var novoarray = array.map((data)=>{
-        <h1>{data}</h1>
-    })
+    
 
     const [countUsers, setCountUsers] = useState(0)
-
-
-
-    useEffect(()=>{
-        const databaseRef = ref(database, `rooms/SALA03/count`)
-        const databaseRefRoot = ref(database)
+    //const [result, setResult] = useState([])
+    const desk = {teste:"oi"}
+    const player1 = {nickname: props.location.nickname, pontos: 0}
     
-    get(child(databaseRefRoot, 'rooms/')).then((snapshot) =>{
-        if (snapshot.exists()) {
-            array = [...array, snapshot.val()]
-            console.log(array)
-            console.log(snapshot.val())
-            setSalas(snapshot.val())
-            
-            
-        } else {
-          alert("Erro desconhecido, nada encontrado na base de dados, lascou")
-            
-          setSalas([])
-        }
-      }).catch((error) => {
-        console.error(error);
-      })
-
-
-
-      onValue(databaseRef, (data)=> {
-          console.log(data.val())
-         setCountUsers(data.val())
-      })
-
-    }, [])
-
-    let result = Object.entries(salas);
-    result.map( (index)=>{
-    console.log(index[0]); 
-});
-
-
-    function createRoom(){
-        const desk = {teste:"oi"}
-        const player = {player1:{
-            nickname: "Felipe"
-            }
-        }
-
 
     //Setando o deck de cartas do jogo
     let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
@@ -88,29 +45,62 @@ function Salas(){
     //setDeck(deck.getDeck())
 
     //Criando a sala
-    var room = new Room("SALA03", desk, cards, player)
+    var room = new Room(criarNomeSala(), desk, cards, player1)
+
+
+
+    useEffect(()=>{
+        const databaseRef = ref(database, `rooms/${room.getRoom()}/count`)
+        const databaseRefRoot = ref(database)
+    
+    get(child(databaseRefRoot, 'rooms/')).then((snapshot) =>{
+        if (snapshot.exists()) {
+            //array = [...array, snapshot.val()]
+            //console.log(array)
+            //console.log(snapshot.val())
+            setSalas(snapshot.val())
+            //setResult(Object.entries(salas))
+            
+            
+        } else {
+          alert("Erro desconhecido, nada encontrado na base de dados, lascou")
+            
+          //setSalas([])
+        }
+      }).catch((error) => {
+        console.error(error);
+      })
+
+      
+
+
+
+      onValue(databaseRef, (data)=> {
+          console.log(data.val())
+         setCountUsers(data.val())
+      })
+
+    }, [])
+
+    var result = (Object.entries(salas))
+    result.map( (index)=>{
+    console.log(index[0]); 
+});
+
+
+    function createRoom(){
     //setando a sala no firebase
     console.log(room.getDesk())
-    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer(), 1);
+    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1);
+
 
     
     }
 
-    function loob(){
-        if(countUsers == 1){
-            //setCountUsers(0)
-            return <p>Aguardando...</p>
-        }else if(countUsers == 2){
-            //setCountUsers(0)
-            return <p>Iniciando partida...</p>
-        }else{
-            return <p>{countUsers}</p>
-        }
-    }
-
-    function iniciarPartida(){
-        contaMaisUmUsuario();
-
+    function criarNomeSala(){
+        const min = 111;
+        const max = 999;
+        return ("Sala@" +(Math.floor(Math.random() * (max - min + 1)) + min).toString())
     }
 
     
@@ -120,14 +110,20 @@ function Salas(){
         <div className="container_body">
             
             <div className="main-Game">
-                <button onClick={createRoom}>Criar uma nova sala</button>
+               {/*<Link to={`/game/${room.getRoom()}`} onClick={createRoom()}>Criar uma nova sala</Link>*/}
+                {/*<a href={`/game/${room.getRoom()}`} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaaaaaaaaaa</a>*/}
+                <Link to={{
+                    pathname: `/game/${room.getRoom()}`,
+                    nickName: player1.nickname,
+                    nameRoom: room.getRoom()}} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
                 
             
-                {result.map( (index)=>{
-                    return <Link to={`/game/${index[0]}`} key={index.id} onClick={iniciarPartida}>{index[0]}</Link>
+                {result.map( (data, index)=>{
+                    return <CardSalas data={data} player2={player1}/>
+                    //return <Link to={`/game/${index[0]}`} key={index} onClick={iniciarPartida}>{index[0]}</Link>
                 })
                 }
-                {loob()}
+                 
             
                 
                 

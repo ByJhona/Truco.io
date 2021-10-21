@@ -11,7 +11,10 @@ import Carta from '../Carta/Carta'
 
 
 
-export default function Docker(){
+export default function Docker({nickName, nameRoom}){
+
+    
+   
     
 
     const [deck, setDeck] = useState([])
@@ -21,35 +24,14 @@ export default function Docker(){
 // Remover duplicidade de funcoes get
     useEffect(()=>{
         
-        const databaseRef = ref(database, 'users/Jhonatan/deck');
+        const databaseRef = ref(database, `rooms/${nameRoom}`);
         const databaseRoot = ref(database)
         onChildChanged(databaseRef, ((data) => {
             
-            get(databaseRef).then((snapshot) => {
-                console.log(snapshot.val())
-                if (snapshot.exists()) {
-                    setDeck(snapshot.val())
-                    
-                } else {
-                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                    setDeck([])   
-                }
-            })
+            pegaDeck();
         }))
 
-
-        get(child(databaseRoot, 'users/Jhonatan/deck')).then((snapshot) => {
-            console.log(snapshot.val())
-            if (snapshot.exists()) {
-              setDeck(snapshot.val())
-              
-                
-            } else {
-                console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                setDeck([])   
-            }}).catch(
-        setDeck([]))
-
+    pegaDeck()
         
 
     }, [])
@@ -59,6 +41,46 @@ export default function Docker(){
             return false
         }
         return true
+    }
+
+    function pegaDeck(){
+        
+        const databaseRoot = ref(database)
+        get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
+            console.log(snapshot.val())
+            const name = snapshot.val()
+            console.log(name['nickname'])
+            const nomeREAL = name['nickname']
+            //Veriffica qual deck vai exibir no docker com base no nome do usuario
+            if (nomeREAL == nickName) {
+                //
+              get(child(databaseRoot, `rooms/${nameRoom}/player1/deck`)).then((data)=>{
+                if (data.exists()) {
+                    setDeck(data.val())
+                    
+                } else {
+                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                    setDeck([])   
+                }
+              })//
+              
+                
+            } else {
+                //
+              get(child(databaseRoot, `rooms/${nameRoom}/player2/deck`)).then((data)=>{
+                if (data.exists()) {
+                    setDeck(data.val())
+                    
+                } else {
+                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
+                    setDeck([])   
+                }
+              })//
+
+                
+            }}).catch(
+        setDeck([]))
+
     }
 
     

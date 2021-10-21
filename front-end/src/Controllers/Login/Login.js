@@ -1,6 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link ,useHistory } from 'react-router-dom'
+import { ref, set, get, child, onValue, update, remove, onChildRemoved, onChildChanged } from "firebase/database";
+import {database} from '../../util/firebase'
+
+
 
 import logo from '../../Assents/logo2.png'
 
@@ -16,21 +20,58 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-import {signIn, signInAnonymous, signUp, getOnlineUsers} from '../../util/api-firebase'
+import {SignIn, signInAnonymous, signUp, getOnlineUsers} from '../../util/api-firebase'
 
 
 
 import {useForm} from "react-hook-form"
 
 import './Login.scss'
-import { signInAnonymously } from 'firebase/auth';
 
 function Login(){
     const {register, handleSubmit, formState:{errors}} = useForm()
     
-    const [nickname, setNickname] = useState('')
-    const [password, setPassword] = useState('')
+    const [nickname, setNickname] = useState(' ')
+    const [password, setPassword] = useState(' ')
     const online = 0
+    let history = useHistory();
+
+    
+
+    
+    function signIn(nickname) {
+      const databaseRef = ref(database)
+      
+      
+      get(child(databaseRef, 'users/' + nickname)).then((snapshot) => {
+          if (snapshot.exists()) {
+              //Chamar o jogo a partir daqui
+            console.log(snapshot.val());
+            console.log("Logado com sucesso")
+            
+  
+            //addOnlineUsers()
+            console.log(nickname)
+          history.push({
+            pathname: '/salas',
+            nickname: nickname,
+          })
+          setNickname('')
+          setPassword('')
+             
+            
+  
+          } else {
+            alert("Usuário não encontrado no database");
+            
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+  
+       
+  };
+    
 
     
     return(

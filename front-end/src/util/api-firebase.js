@@ -2,12 +2,13 @@ import {database} from './firebase'
 import React, {useContext, useEffect, useState} from 'react'
 import { ref, set, get, child, onValue, update, remove, onChildRemoved, onChildChanged } from "firebase/database";
 
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 
 
-export const signIn = (nickname) => {
+export const SignIn = async (nickname) => {
     const databaseRef = ref(database)
+    
     get(child(databaseRef, 'users/' + nickname)).then((snapshot) => {
         if (snapshot.exists()) {
             //Chamar o jogo a partir daqui
@@ -19,14 +20,18 @@ export const signIn = (nickname) => {
 
           addOnlineUsers()
           
+           
+          
 
         } else {
           alert("Usuário não encontrado no database");
+          
         }
       }).catch((error) => {
         console.error(error);
       });
-      
+
+     
 };
 
 function randomNickNames(){
@@ -167,8 +172,8 @@ export function setDeck(deck){
   update(ref(database, 'sala01/'), {deck});
 }
 
-export function setRoom(room, desk, deck, players, count){
-  update(ref(database, 'rooms/' + room), {desk, deck, players, count});
+export function setRoom(room, desk, cards, player1, count){
+  update(ref(database, 'rooms/' + room), {desk, cards, player1, count});
 
 }
 
@@ -192,13 +197,13 @@ export function getRooms(){
 }
 
 
-export function contaMaisUmUsuario(){
-  const databaseRef = ref(database, 'rooms/SALA03/count');
+export function contaMaisUmUsuario(room){
+  const databaseRef = ref(database, `rooms/${room}/count`);
 
   get(databaseRef).then((data)=>{
     var count = data.val() + 1;
-    console.log(data)
-    update(ref(database, 'rooms/SALA03/'), {count});
+    console.log(data.val())
+    update(ref(database, `rooms/${room}/`), {count});
 
   })
 

@@ -1,10 +1,10 @@
 export default class Room{
-    constructor(room, desk, deck, player, count){
+    constructor(room, desk, deck, player1, count){
         this.count = count;
         this.room = room;
         this.desk = desk;
         this.deck = deck;
-        this.player = player;
+        this.player1 = player1;
 
     }
 
@@ -20,8 +20,8 @@ export default class Room{
         return this.deck;
     }
 
-    getPlayer(){
-        return this.player;
+    getPlayer1(){
+        return this.player1;
     }
 
     getCount(){
