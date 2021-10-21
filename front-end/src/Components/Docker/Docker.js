@@ -91,7 +91,7 @@ export default function Docker({nickName, nameRoom}){
             
             {
                 deck.map((data, index) => {
-                   if(verifica(data)) return <Carta suit={data.suit} value={data.value} id={index}/>
+                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName1={nickName} suit={data.suit} value={data.value} id={index}/>
                 })
 
             }

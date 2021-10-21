@@ -15,6 +15,8 @@ import {database} from '../../util/firebase'
 
 
 export default function Carta(props){
+    const nickName1 = props.nickName1;
+    const nameRoom = props.nameRoom;
 
     function qualCarta(){
         if(`${props.value}_of_${props.suit}` === "2_of_clubs"){
@@ -31,7 +33,28 @@ export default function Carta(props){
 
     function removeCardDB(id){
         alert(id)
-        update(ref(database, `rooms/Sala@511/player1/deck/${id}`), {value: '', suit: '0'})
+        console.log(nickName1)
+        console.log(nameRoom)
+        
+
+
+        const databaseRoot = ref(database)
+
+        get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
+            console.log(snapshot.val())
+            const name = snapshot.val()
+            console.log(name['nickname'])
+            const nomeREAL = name['nickname']
+            //Veriffica qual deck vai exibir no docker com base no nome do usuario
+            if (nomeREAL == nickName1) {
+                //
+                update(ref(database, `rooms/${nameRoom}/player1/deck/${id}`), {value: ' ', suit: '0'})
+                
+            } else {
+                update(ref(database, `rooms/${nameRoom}/player/deck/${id}`), {value: ' ', suit: '0'})
+                
+                
+            }}).catch(()=>{console.log("Deu ruim, parceiro")})
     }
 
     
