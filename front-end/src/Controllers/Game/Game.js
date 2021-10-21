@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom';
 import skolzera from '../../Assents/skolzera.png'
 
-import {setDeckBD, setDeck} from '../../util/api-firebase'
+import {setDeckBD, setDeck, setRoom} from '../../util/api-firebase'
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 import {database} from '../../util/firebase'
 
@@ -10,22 +10,20 @@ import {database} from '../../util/firebase'
 
 
 import'./Game.scss'
-import Docker from '../Docker/Docker'
-import Deck from '../deck'
+import Docker from '../../Components/Docker/Docker'
+
+//Import dos models
 
 
-function Game(){
-    let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-    let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
-    const [localDeck, setLocalDeck] = useState([])
 
-    var deck = new Deck();
-    deck.createDeck(suits, values)
-    deck.shuffle()
+function Game(props){
+    const nameRoom = props.location.nameRoom;
+    const nickName = props.location.nickName;
 
-    setDeck(deck.getDeck())
+    console.log(nameRoom)
+    console.log(nickName)
 
-    
+
     
     return(
       
@@ -36,7 +34,7 @@ function Game(){
                 
 
                 <img src={skolzera} alt="fundo" className="skolzera"/>
-                <Docker/>
+                <Docker nameRoom={nameRoom} nickName={nickName}/>
 
                 
                 
