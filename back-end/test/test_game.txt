@@ -1,0 +1,69 @@
+J_ouro J_copa empate
+J_ouro J_pau empate
+J_ouro J_espada empate
+
+J_copa J_ouro empate
+J_copa J_pau empate
+J_copa J_espada empate
+
+J_pau J_ouro empate
+J_pau J_copa empate
+J_pau J_espada empate
+
+J_espada J_ouro empate
+J_espada J_copa empate
+J_espada J_pau empate
+
+
+J_ouro Q_ouro Q_ouro
+J_ouro Q_copa Q_copa
+J_ouro Q_pau Q_pau
+J_ouro Q_espada Q_espada
+
+J_copa Q_ouro Q_ouro
+J_copa Q_copa Q_copa
+J_copa Q_pau Q_pau
+J_copa Q_espada Q_espada
+
+J_pau Q_ouro Q_ouro
+J_pau Q_copa Q_copa
+J_pau Q_pau Q_pau
+J_pau Q_espada Q_espada
+
+J_espada Q_ouro Q_ouro
+J_espada Q_copa Q_copa
+J_espada Q_pau Q_pau
+J_espada Q_espada Q_espada
+
+
+J_ouro K_ouro K_ouro
+J_ouro K_copa K_copa
+J_ouro K_pau K_pau
+J_ouro K_espada K_espada
+
+J_copa K_ouro K_ouro
+J_copa K_copa K_copa
+J_copa K_pau K_pau
+J_copa K_espada K_espada
+
+J_pau K_ouro K_ouro
+J_pau K_copa K_copa
+J_pau K_pau K_pau
+J_pau K_espada K_espada
+
+J_espada K_ouro K_ouro
+J_espada K_copa K_copa
+J_espada K_pau K_pau
+J_espada K_espada K_espada
+
+
+J_ouro A_ouro A_ouro
+J_copa A_copa A_copa
+J_pau A_pau A_pau
+J_espada A_espada A_espada
+
+J_ouro A_ouro A_ouro
+J_copa A_copa A_copa
+J_pau A_pau A_pau
+J_espada A_espada A_espada
+
