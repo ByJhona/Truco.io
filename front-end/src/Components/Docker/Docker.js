@@ -13,10 +13,6 @@ import Carta from '../Carta/Carta'
 
 export default function Docker({nickName, nameRoom}){
 
-    
-   
-    
-
     const [deck, setDeck] = useState([])
     
 
@@ -91,7 +87,7 @@ export default function Docker({nickName, nameRoom}){
             
             {
                 deck.map((data, index) => {
-                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName1={nickName} suit={data.suit} value={data.value} id={index}/>
+                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName={nickName} suit={data.suit} value={data.value} id={index}/>
                 })
 
             }
@@ -100,8 +96,3 @@ export default function Docker({nickName, nameRoom}){
         </div>
     )
 }
-
-/*<button onClick={() => {
-                getDeckBD() 
-                console.log(deck)
-            }}>Clique aqui</button>*/

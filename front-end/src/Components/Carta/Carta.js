@@ -14,26 +14,25 @@ import {database} from '../../util/firebase'
 
 
 
-export default function Carta(props){
-    const nickName1 = props.nickName1;
-    const nameRoom = props.nameRoom;
+export default function Carta({nickName, nameRoom, value, suit, id}){
+    
 
     function qualCarta(){
-        if(`${props.value}_of_${props.suit}` === "2_of_clubs"){
-           return <img src={two_of_clubs} className="carta" onClick={() => removeCardDB(props.id)}/>
-        }else if(`${props.value}_of_${props.suit}` === "2_of_diamonds"){
-            return <img src={two_of_diamonds} className="carta" onClick={() => removeCardDB(props.id)}/>
-        }else if(`${props.value}_of_${props.suit}` === "2_of_hearts"){
-            return <img src={two_of_hearts} className="carta" onClick={() => removeCardDB(props.id)}/>
-        }else if(`${props.value}_of_${props.suit}` === "2_of_spades"){
-            return <img src={two_of_spades} className="carta"onClick={() => removeCardDB(props.id)}/>
+        if(`${value}_of_${suit}` === "2_of_clubs"){
+           return <img src={two_of_clubs} className="carta" onClick={() => removeCardDB()}/>
+        }else if(`${value}_of_${suit}` === "2_of_diamonds"){
+            return <img src={two_of_diamonds} className="carta" onClick={() => removeCardDB()}/>
+        }else if(`${value}_of_${suit}` === "2_of_hearts"){
+            return <img src={two_of_hearts} className="carta" onClick={() => removeCardDB()}/>
+        }else if(`${value}_of_${suit}` === "2_of_spades"){
+            return <img src={two_of_spades} className="carta"onClick={() => removeCardDB()}/>
         }
     }
 
 
-    function removeCardDB(id){
+    function removeCardDB(){
         alert(id)
-        console.log(nickName1)
+        console.log(nickName)
         console.log(nameRoom)
         
 
@@ -46,12 +45,12 @@ export default function Carta(props){
             console.log(name['nickname'])
             const nomeREAL = name['nickname']
             //Veriffica qual deck vai exibir no docker com base no nome do usuario
-            if (nomeREAL == nickName1) {
+            if (nomeREAL == nickName) {
                 //
                 update(ref(database, `rooms/${nameRoom}/player1/deck/${id}`), {value: ' ', suit: '0'})
                 
             } else {
-                update(ref(database, `rooms/${nameRoom}/player/deck/${id}`), {value: ' ', suit: '0'})
+                update(ref(database, `rooms/${nameRoom}/player2/deck/${id}`), {value: ' ', suit: '0'})
                 
                 
             }}).catch(()=>{console.log("Deu ruim, parceiro")})
