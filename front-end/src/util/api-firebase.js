@@ -172,8 +172,8 @@ export function setDeck(deck){
   update(ref(database, 'sala01/'), {deck});
 }
 
-export function setRoom(room, desk, cards, player1, count){
-  update(ref(database, 'rooms/' + room), {desk, cards, player1, count});
+export function setRoom(room, desk, cards, player1, count, match){
+  update(ref(database, 'rooms/' + room), {desk, cards, player1, count, match});
 
 }
 

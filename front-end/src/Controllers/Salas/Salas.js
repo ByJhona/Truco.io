@@ -29,7 +29,7 @@ function Salas(props){
 
     const [countUsers, setCountUsers] = useState(0)
     //const [result, setResult] = useState([])
-    const desk = {turn: props.location.nickname}
+    const desk = {turn: props.location.nickname, cardPlayer1: {suit:" ", value: " "}, cardPlayer2: {suit:" ", value: " "}, round: 0}
     const player1 = {nickname: props.location.nickname, pontos: 0}
     
 
@@ -45,7 +45,7 @@ function Salas(props){
     //setDeck(deck.getDeck())
 
     //Criando a sala
-    var room = new Room(criarNomeSala(), desk, cards, player1)
+    var room = new Room(criarNomeSala(), desk, cards, player1, 0, 0)
 
 
 
@@ -90,8 +90,8 @@ function Salas(props){
 
     function createRoom(){
     //setando a sala no firebase
-    console.log(room.getDesk())
-    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1);
+    
+    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1, room.getMatch());
 
 
     

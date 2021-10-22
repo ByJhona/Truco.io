@@ -29,7 +29,7 @@ function Game(props){
 
         onValue(databaseRef,()=>{
             defineTurn();
-            console.log("Trocou de jogador")
+            
         })
 
 
