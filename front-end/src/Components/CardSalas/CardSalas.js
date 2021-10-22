@@ -15,9 +15,10 @@ import Deck from '../../Model/Deck.model'
 
 
 
-function CardSalas({data, player2}){
+function CardSalas({data, playerAUX}){
 
     const nameRoom = data[0]
+    const player2 = {nickname: playerAUX.nickname, pontos: playerAUX.pontos}
     
     function iniciarPartida(roomname){
         contaMaisUmUsuario(roomname);
@@ -36,7 +37,7 @@ function CardSalas({data, player2}){
         deckAUX.createDeck(suits, values)
         deckAUX.shuffle()
 
-        console.log(deckAUX)
+        //console.log(deckAUX)
 
         var deckA = []
         var deckB = []
@@ -46,7 +47,7 @@ function CardSalas({data, player2}){
             deckA.push(deckAUX.getCard(j))
             j++;
         }
-        console.log(deckA)
+        //console.log(deckA)
         for(i = 0; i < 3; i++){
             deckB.push(deckAUX.getCard(j))
             j++;
@@ -72,6 +73,7 @@ function CardSalas({data, player2}){
             <Link to={{
             pathname: `/game/${nameRoom}`,
             nameRoom: data[0],
+            nickName: player2.nickname
           }} onClick={() => iniciarPartida(nameRoom)}>{nameRoom}</Link>
             
             

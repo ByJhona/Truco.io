@@ -31,16 +31,40 @@
 }
 
 .skolzera {
-  display: block;
-  position: center;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: auto;
-  margin-bottom: auto;
+  position: fixed;
+  max-width: 30rem;
+  left: 5.9%;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .docker-bottom {
   display: flex;
   background-color: red;
   justify-content: center;
+}
+
+.divAtiva {
+  cursor: copy;
+  z-index: 10;
+}
+
+.divDesativa {
+  cursor: not-allowed;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.pAtiva {
+  background-color: green;
+  width: 5rem;
+}
+.pDesativa {
+  display: none;
+}
+
+.Docker {
+  background-color: green;
+  width: 100%;
 }

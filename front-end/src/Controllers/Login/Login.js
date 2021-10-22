@@ -62,7 +62,7 @@ function Login(){
             
   
           } else {
-            alert("Usuário não encontrado no database");
+            console.log("Usuário não encontrado no database");
             
           }
         }).catch((error) => {

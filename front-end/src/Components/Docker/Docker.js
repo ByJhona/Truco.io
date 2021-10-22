@@ -43,9 +43,9 @@ export default function Docker({nickName, nameRoom}){
         
         const databaseRoot = ref(database)
         get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
-            console.log(snapshot.val())
+            
             const name = snapshot.val()
-            console.log(name['nickname'])
+            
             const nomeREAL = name['nickname']
             //Veriffica qual deck vai exibir no docker com base no nome do usuario
             if (nomeREAL == nickName) {

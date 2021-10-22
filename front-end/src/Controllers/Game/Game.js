@@ -19,9 +19,51 @@ import Docker from '../../Components/Docker/Docker'
 function Game(props){
     const nameRoom = props.location.nameRoom;
     const nickName = props.location.nickName;
-
-    console.log(nameRoom)
     console.log(nickName)
+
+    const [turn, setTurn] = useState(false)
+
+
+    useEffect(()=> {
+        const databaseRef = ref(database, `rooms/${nameRoom}/desk/turn`)
+
+        onValue(databaseRef,()=>{
+            defineTurn();
+            console.log("Trocou de jogador")
+        })
+
+
+
+
+    })
+
+    
+    function defineTurn() {
+        const databaseRef = ref(database, `rooms/${nameRoom}/desk/turn`)
+        //
+        get(databaseRef).then((snapshot) => {
+            
+            const name = snapshot.val()
+            console.log(name)
+            console.log(nickName)
+            //const nomeREAL = name['nickname']
+            //Veriffica qual jogador vai jogar 
+            if (name == nickName) {
+                //
+                console.log("É sua vez de jogador")
+                setTurn(true)
+                //
+                
+            } else {
+                //
+                console.log("não é sua vez")
+                setTurn(false)
+              //
+
+            }})
+            //
+        
+    }
 
 
     
@@ -33,8 +75,12 @@ function Game(props){
                 
                 
 
+                
+                <div className={turn ? "divAtiva" : "divDesativa"}>
+                    <p className={turn ? "pAtiva" : "pDesativa"}>É sua vez</p>
+                    <Docker nameRoom={nameRoom} nickName={nickName} />
+                </div>
                 <img src={skolzera} alt="fundo" className="skolzera"/>
-                <Docker nameRoom={nameRoom} nickName={nickName}/>
 
                 
                 

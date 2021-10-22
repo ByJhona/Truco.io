@@ -40,20 +40,35 @@ export default function Carta({nickName, nameRoom, value, suit, id}){
         const databaseRoot = ref(database)
 
         get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
-            console.log(snapshot.val())
+            //console.log(snapshot.val())
             const name = snapshot.val()
-            console.log(name['nickname'])
-            const nomeREAL = name['nickname']
+            //console.log(name['nickname'])
+            const nomeBD = name['nickname']
             //Veriffica qual deck vai exibir no docker com base no nome do usuario
-            if (nomeREAL == nickName) {
+            if (nomeBD == nickName) {
                 //
                 update(ref(database, `rooms/${nameRoom}/player1/deck/${id}`), {value: ' ', suit: '0'})
+                changeTurn("player2")
                 
             } else {
                 update(ref(database, `rooms/${nameRoom}/player2/deck/${id}`), {value: ' ', suit: '0'})
+                changeTurn("player1")
+                update(ref(database, `rooms/${nameRoom}/desk`), {turn: nickName})
                 
                 
             }}).catch(()=>{console.log("Deu ruim, parceiro")})
+    }
+
+    function changeTurn(player) {
+        const databaseRoot = ref(database)
+        //
+        get(child(databaseRoot, `rooms/${nameRoom}/${player}/`)).then((snapshot)=>{
+            const name = snapshot.val()
+            const nomeBD = name['nickname']
+            alert(nomeBD)
+            update(ref(database, `rooms/${nameRoom}/desk`), {turn: nomeBD})
+        })
+        //
     }
 
     

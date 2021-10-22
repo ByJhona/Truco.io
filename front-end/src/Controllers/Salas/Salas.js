@@ -29,7 +29,7 @@ function Salas(props){
 
     const [countUsers, setCountUsers] = useState(0)
     //const [result, setResult] = useState([])
-    const desk = {teste:"oi"}
+    const desk = {turn: props.location.nickname}
     const player1 = {nickname: props.location.nickname, pontos: 0}
     
 
@@ -119,7 +119,7 @@ function Salas(props){
                 
             
                 {result.map( (data, index)=>{
-                    return <CardSalas data={data} player2={player1}/>
+                    return <CardSalas data={data} playerAUX={player1}/>
                     //return <Link to={`/game/${index[0]}`} key={index} onClick={iniciarPartida}>{index[0]}</Link>
                 })
                 }
