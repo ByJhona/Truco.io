@@ -50,7 +50,7 @@ function Salas(props){
 
 
     useEffect(()=>{
-        const databaseRef = ref(database, `rooms/${room.getRoom()}/count`)
+        const databaseRef = ref(database, `rooms/${room.getRoom()}/countUsers`)
         const databaseRefRoot = ref(database)
     
     get(child(databaseRefRoot, 'rooms/')).then((snapshot) =>{
@@ -91,7 +91,7 @@ function Salas(props){
     function createRoom(){
     //setando a sala no firebase
     
-    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1, room.getMatch());
+    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1, room.getMatch(), 0);
 
 
     

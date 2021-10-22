@@ -32,8 +32,7 @@ export default function Carta({nickName, nameRoom, value, suit, id}){
 
     function removeCardDB(){
         alert(id)
-        console.log(nickName)
-        console.log(nameRoom)
+        
         
 
 
@@ -49,14 +48,39 @@ export default function Carta({nickName, nameRoom, value, suit, id}){
                 //
                 update(ref(database, `rooms/${nameRoom}/player1/deck/${id}`), {value: ' ', suit: '0'})
                 changeTurn("player2")
+                putDesk("cardPlayer1")
+                //indefinido
+                countCheckRound();
                 
             } else {
                 update(ref(database, `rooms/${nameRoom}/player2/deck/${id}`), {value: ' ', suit: '0'})
                 changeTurn("player1")
-                update(ref(database, `rooms/${nameRoom}/desk`), {turn: nickName})
+                putDesk("cardPlayer2")
+                countCheckRound();
+                //update(ref(database, `rooms/${nameRoom}/desk`), {turn: nickName})
                 
                 
             }}).catch(()=>{console.log("Deu ruim, parceiro")})
+    }
+
+    function putDesk(cardPlayer){
+        
+        //Seta a carta removida do deck do jogador para a mesa
+        update(ref(database, `rooms/${nameRoom}/desk/${cardPlayer}/`), {value: value, suit: suit})
+
+    }
+
+    function countCheckRound(){
+        //const databaseRef = ref(database, `rooms/${nameRoom}/checkRound`);
+
+        const databaseRef = ref(database, `rooms/${nameRoom}/checkRound`);
+
+  get(databaseRef).then((data)=>{
+    var count = data.val() + 1;
+    console.log(data.val())
+    update(ref(database, `rooms/${nameRoom}/`), {checkRound: count});
+
+  })
     }
 
     function changeTurn(player) {

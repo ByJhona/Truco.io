@@ -172,8 +172,8 @@ export function setDeck(deck){
   update(ref(database, 'sala01/'), {deck});
 }
 
-export function setRoom(room, desk, cards, player1, count, match){
-  update(ref(database, 'rooms/' + room), {desk, cards, player1, count, match});
+export function setRoom(room, desk, cards, player1, countUsers, match, checkRound){
+  update(ref(database, 'rooms/' + room), {desk, cards, player1, countUsers, match, checkRound});
 
 }
 
@@ -198,12 +198,12 @@ export function getRooms(){
 
 
 export function contaMaisUmUsuario(room){
-  const databaseRef = ref(database, `rooms/${room}/count`);
+  const databaseRef = ref(database, `rooms/${room}/countUsers`);
 
   get(databaseRef).then((data)=>{
     var count = data.val() + 1;
     console.log(data.val())
-    update(ref(database, `rooms/${room}/`), {count});
+    update(ref(database, `rooms/${room}/`), {countUsers: count});
 
   })
 

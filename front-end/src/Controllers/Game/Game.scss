@@ -37,6 +37,13 @@
   z-index: 0;
   opacity: 0.3;
   pointer-events: none;
+  animation: spin 120s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .docker-bottom {
