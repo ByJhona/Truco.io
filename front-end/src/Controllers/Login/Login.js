@@ -71,6 +71,30 @@ function Login(){
   
        
   };
+
+
+  function randomNickNames(){
+
+    const min = 111;
+    const max = 999;
+    return ("Truculento@" +(Math.floor(Math.random() * (max - min + 1)) + min).toString())
+}
+
+function signInAnonymous(){
+
+  const nickNameAnonymous = randomNickNames();
+
+  set(ref(database, 'users/' + nickNameAnonymous), {
+    nickname: nickNameAnonymous,
+    password: '',
+    status: true
+  });
+
+  history.push({
+  pathname: '/salas',
+  nickname: nickNameAnonymous,
+  })
+}
     
 
     

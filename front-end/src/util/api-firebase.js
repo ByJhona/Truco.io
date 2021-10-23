@@ -6,33 +6,6 @@ import { Redirect, useHistory } from 'react-router-dom'
 
 
 
-export const SignIn = async (nickname) => {
-    const databaseRef = ref(database)
-    
-    get(child(databaseRef, 'users/' + nickname)).then((snapshot) => {
-        if (snapshot.exists()) {
-            //Chamar o jogo a partir daqui
-          console.log(snapshot.val());
-          alert("Logado com sucesso")
-          update(ref(database, 'users/' + nickname), {
-              status: true
-          })
-
-          addOnlineUsers()
-          
-           
-          
-
-        } else {
-          alert("Usuário não encontrado no database");
-          
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-
-     
-};
 
 function randomNickNames(){
 
