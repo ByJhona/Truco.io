@@ -29,23 +29,24 @@ function Salas(props){
 
     const [countUsers, setCountUsers] = useState(0)
     //const [result, setResult] = useState([])
-    const desk = {turn: props.location.nickname, cardPlayer1: {suit:" ", value: " "}, cardPlayer2: {suit:" ", value: " "}, round: 0}
+    const desk = {turn: props.location.nickname, 
+        cardPlayer1: {suit:"", value: "", target: -1}, 
+        cardPlayer2: {suit:"", value: "", target: -1}, 
+        countRound: 0,
+        checkRound: 0,
+        round1: "",
+        round2: "",
+        round3: ""
+    }
     const player1 = {nickname: props.location.nickname, pontos: 0}
     
 
-    //Setando o deck de cartas do jogo
-    let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-    let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+    
 
-    var deck = new Deck();
-    deck.createDeck(suits, values)
-    deck.shuffle()
-    const cards = deck.getDeck()
-    //Insere o deck direto no banco de dado
-    //setDeck(deck.getDeck())
+    
 
     //Criando a sala
-    var room = new Room(criarNomeSala(), desk, cards, player1, 0, 0)
+    var room = new Room(criarNomeSala(), desk, player1)
 
 
 
@@ -91,7 +92,7 @@ function Salas(props){
     function createRoom(){
     //setando a sala no firebase
     
-    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1, room.getMatch(), 0);
+    setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
 
 
     

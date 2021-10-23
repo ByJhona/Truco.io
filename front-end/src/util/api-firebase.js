@@ -48,7 +48,7 @@ export const signInAnonymous = () => {
     
     onValue(databaseRef, (snapshot) => {
         if(snapshot.exists()){
-            alert("Usuário existente3")
+            console.log("Usuário existente3")
         }else{
             set(ref(database, 'users/' + nickNameAnonymous), {
                 nickname: nickNameAnonymous,
@@ -172,8 +172,8 @@ export function setDeck(deck){
   update(ref(database, 'sala01/'), {deck});
 }
 
-export function setRoom(room, desk, cards, player1, countUsers, match, checkRound){
-  update(ref(database, 'rooms/' + room), {desk, cards, player1, countUsers, match, checkRound});
+export function setRoom(room, desk, player1, countUsers){
+  update(ref(database, 'rooms/' + room), {desk, player1, countUsers});
 
 }
 

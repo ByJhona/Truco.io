@@ -30,11 +30,10 @@ function CardSalas({data, playerAUX}){
 
     }
     function distribuiCartas(){
-        let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-        let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+        //criação de manilhas especiais direto na funcao do models
 
         var deckAUX = new Deck();
-        deckAUX.createDeck(suits, values)
+        deckAUX.createDeck()
         deckAUX.shuffle()
 
         //console.log(deckAUX)

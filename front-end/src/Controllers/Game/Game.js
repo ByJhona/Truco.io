@@ -11,6 +11,9 @@ import {database} from '../../util/firebase'
 
 import'./Game.scss'
 import Docker from '../../Components/Docker/Docker'
+import Desk from '../../Components/Desk/Desk'
+
+
 
 //Import dos models
 
@@ -74,8 +77,11 @@ function Game(props){
             <div className="main-Game">
                 
                 
+                <div className="desk">
 
                 
+                    <Desk nameRoom={nameRoom} nickName={nickName}/>
+                </div>
                 <div className={turn ? "divAtiva" : "divDesativa"}>
                     <p className={turn ? "pAtiva" : "pDesativa"}>É sua vez</p>
                     <Docker nameRoom={nameRoom} nickName={nickName} />

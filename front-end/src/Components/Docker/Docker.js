@@ -27,7 +27,7 @@ export default function Docker({nickName, nameRoom}){
             pegaDeck();
         }))
 
-    pegaDeck()
+    //pegaDeck()
         
 
     }, [])
@@ -87,7 +87,7 @@ export default function Docker({nickName, nameRoom}){
             
             {
                 deck.map((data, index) => {
-                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName={nickName} suit={data.suit} value={data.value} id={index}/>
+                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName={nickName} suit={data.suit} value={data.value} target={data.target} id={index}/>
                 })
 
             }

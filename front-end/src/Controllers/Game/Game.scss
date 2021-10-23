@@ -54,13 +54,13 @@
 
 .divAtiva {
   cursor: copy;
-  z-index: 10;
+  z-index: 4;
 }
 
 .divDesativa {
   cursor: not-allowed;
   pointer-events: none;
-  z-index: 10;
+  z-index: 4;
 }
 
 .pAtiva {
@@ -74,4 +74,8 @@
 .Docker {
   background-color: green;
   width: 100%;
+}
+
+.desk {
+  z-index: 8;
 }
