@@ -13,6 +13,9 @@ import CardSalas from '../../Components/CardSalas/CardSalas'
 import Deck from '../../Model/Deck.model'
 import Room from '../../Model/Room.model'
 
+import {distribuiCartas} from '../../Model/Regras'
+
+
 
 
 
@@ -84,24 +87,28 @@ function Salas(props){
     }, [])
 
     var result = (Object.entries(salas))
-    result.map( (index)=>{
+    result.map( (index) => {
     console.log(index[0]); 
 });
 
 
     function createRoom(){
     //setando a sala no firebase
-    
-    setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
+        setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
 
-
-    
     }
 
     function criarNomeSala(){
         const min = 111;
         const max = 999;
         return ("Sala@" +(Math.floor(Math.random() * (max - min + 1)) + min).toString())
+    }
+
+    function jogarContraBot(){
+        setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
+
+        
+
     }
 
     
@@ -111,12 +118,16 @@ function Salas(props){
         <div className="container_body">
             
             <div className="main-Game">
-               {/*<Link to={`/game/${room.getRoom()}`} onClick={createRoom()}>Criar uma nova sala</Link>*/}
-                {/*<a href={`/game/${room.getRoom()}`} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaaaaaaaaaa</a>*/}
+               
                 <Link to={{
                     pathname: `/game/${room.getRoom()}`,
                     nickName: player1.nickname,
-                    nameRoom: room.getRoom()}} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
+                    nameRoom: room.getRoom(), bot: false
+                    }} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
+
+                
+
+                    
                 
             
                 {result.map( (data, index)=>{
@@ -124,6 +135,14 @@ function Salas(props){
                     //return <Link to={`/game/${index[0]}`} key={index} onClick={iniciarPartida}>{index[0]}</Link>
                 })
                 }
+ 
+
+<Link to={{
+                    pathname: `/game/${room.getRoom()}`,
+                    nickName: player1.nickname,
+                    nameRoom: room.getRoom(), bot: true}} key={room.getRoom()} onClick={()=> jogarContraBot()}>Jogatina contra bot</Link>
+
+
                  
             
                 
