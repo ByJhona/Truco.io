@@ -13,8 +13,8 @@ import {cartaMaisForte} from '../../Model/Regras'
 
 export default function Docker({nickName, nameRoom}){
 
-    const [card, setCard] = useState({suit: '', target: -1, value: ''})
-    const [cardOponente, setCardOponente] = useState({value: ' ', suit: ' ', target: -1})
+    const [card, setCard] = useState({suit: 'clubs', target: -1, value: ''})
+    const [cardOponente, setCardOponente] = useState({value: 'hearts', suit: ' ', target: -1})
 
     useEffect(()=>{
         
@@ -26,93 +26,103 @@ export default function Docker({nickName, nameRoom}){
         }))
         // Verifica quando todos os usuarios jogares
         onValue(ref(database, `rooms/${nameRoom}/desk/checkRound`),(data)=>{
-            console.log(card, cardOponente)
-            if(data.val() == 2){
+            
+            if(data.val() === 2){
                 //alert("FIM DO ROUND DEFINIR GANHADOR")
                 // atualiza o checkround para poder saber quando relizar o check dnv
-                update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
 
-                
-                const ganhadora = cartaMaisForte(card, cardOponente)
+                comparaCartas();
 
-                if(ganhadora.target === -1){
-                    console.log(ganhadora)
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: 'empate'})
-                }
+                //if(ganhadora.target === -1){
+            
+                    //update(ref(database, `rooms/${nameRoom}/desk/`), {round1: 'empate'})
+                //}
+                //update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
 
             }
         })
 
     }, [])
 
+    // inicio da funcao compara cartas
+    function comparaCartas(){
+        
+        get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+            const sala = data.val()
+
+            const cardPlayer1 = sala.desk.cardPlayer1;
+            const cardPlayer2 = sala.desk.cardPlayer2;
+
+            const nickNamePlayer1 = sala.player1.nickname;
+            const nickNamePlayer2 = sala.player2.nickname;
+
+            var countRound = sala.desk.countRound;
+            countRound += 1;
+
+            const ganhadora = cartaMaisForte(cardPlayer1, cardPlayer2);
+
+            if(countRound === 1){
+                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer1})
+                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer2})
+                }else{
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: 'empate'})
+                }
+            }else if(countRound === 2){
+                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: nickNamePlayer1})
+                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: nickNamePlayer2})
+                }else{
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: 'empate'})
+                }
+            }else{
+                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: nickNamePlayer1})
+                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: nickNamePlayer2})
+                }else{
+                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: 'empate'})
+                }
+                //Recomeça a contar o round para uma nova partida
+                update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
+            }
+
+            
+            update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
+            update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
+        
+        
+        })
+        
+
+    }
+    // termino da funcao compara cartas
     //inicio pegadeck
 
     function pegaCard(){
         
-        const databaseRoot = ref(database)
-        get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
-            
-            const name = snapshot.val()
-            
-            const nomeREAL = name['nickname']
-            //Veriffica qual deck vai exibir no docker com base no nome do usuario
-            if (nomeREAL === nickName) {
-                //
-              get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer1`)).then((data)=>{
-                if (data.exists()) {
-                    console.log(data.val())
-                    setCard(data.val())
-                    
-                   
-                    
-                } else {
-                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                    setCard({value: ' ', suit: ' ', target: -1})   
-                }
-              })//
+        get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+            const sala = data.val()
 
-              //Pega os dados do oponente
+            const cardPlayer1 = sala.desk.cardPlayer1;
+            const cardPlayer2 = sala.desk.cardPlayer2;
 
-              get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer2`)).then((data)=>{
-                if (data.exists()) {
-                    setCardOponente(data.val())
-                    
-                    
-                } else {
-                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                    setCardOponente({value: ' ', suit: ' ', target: -1})   
-                }
-              })
-              //
-                
-            } else {
-                //
-            get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer2`)).then((data)=>{
-                if (data.exists()) {
-                    setCard(data.val())
-                    
-                    
-                } else {
-                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                    setCard({value: ' ', suit: ' ', target: -1})   
-                }
-            })//
+            const nickNamePlayer1 = sala.player1.nickname;
+            const nickNamePlayer2 = sala.player2.nickname;
 
-            //Pega os dados do oponente
+            if(nickName === nickNamePlayer1){
+                setCard(cardPlayer1);
+                setCardOponente(cardPlayer2);
+            }else{
+                setCard(cardPlayer2);
+                setCardOponente(cardPlayer1);
+            }
 
-            get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer1`)).then((data)=>{
-                if (data.exists()) {
-                    setCardOponente(data.val())
-                    
-                } else {
-                    console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
-                    setCardOponente({value: ' ', suit: ' ', target: -1})   
-                }
-              })
-              //
-
-                
-            }})
+        
+        
+        })
 
     }
 

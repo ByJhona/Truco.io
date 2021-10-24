@@ -5,6 +5,8 @@ import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildA
 
 
 export function cartaMaisForte(card1, card2) {
+    console.log(card1, card2)
+    
     if(card1.target > card2.target){
         return card1
     }else if(card1.target < card2.target){
