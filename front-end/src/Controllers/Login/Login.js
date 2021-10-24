@@ -113,7 +113,7 @@ function signInAnonymous(){
                 <div className="body">
                 <div>
                   <img src={logo} alt="logo" className="logo"/>
-                  <h1>Truco.iooooooo</h1>
+                  <h1>Truco.io</h1>
                 </div>
 
                 <form onSubmit={handleSubmit}>
