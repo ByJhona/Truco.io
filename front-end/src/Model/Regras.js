@@ -42,10 +42,20 @@ export function distribuiCartas(nameRoom, database){
     update(ref(database, `/rooms/${nameRoom}/player1`), {deck});
 
     deck = deckB;
-    update(ref(database, `/rooms/${nameRoom}/player2`), {deck});
+    update(ref(database, `/rooms/${nameRoom}/player2`), {deck});   
+}
 
-
-
+export function pedirTruco(player, nameRoom, database){
+    //pedir o truco
 
     
+}
+
+export function verificaTruco(playerTruco, playerAceita, nameRoom, database){
+    //validador booleano do truco
+
+    if(playerTruco != '' && playerAceita != ''){
+        update(ref(database, `/rooms/${nameRoom}/desk/truco`), {trucoStatus: true});
+        update(ref(database, `/rooms/${nameRoom}/desk`), {scoreRound: 3});
+    }
 }

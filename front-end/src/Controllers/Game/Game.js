@@ -6,7 +6,7 @@ import {setDeckBD, setDeck, setRoom} from '../../util/api-firebase'
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 import {database} from '../../util/firebase'
 
-import {distribuiCartas} from '../../Model/Regras'
+import {distribuiCartas, pedirTruco} from '../../Model/Regras'
 
 
 import'./Game.scss'
@@ -175,7 +175,17 @@ function Game(props){
                 <button onClick={()=>comecarPartida()} className={bot ? "botAtivo" : "botDesativo"}>Começar a jogar</button>
                 <img src={skolzera} alt="fundo" className="skolzera"/>
 
-                
+                <button>
+                    Truco!
+                </button>
+
+                <button>
+                    Aceitar
+                </button>
+
+                <button>
+                    Correr
+                </button>
                 
                 
             </div>
