@@ -8,6 +8,8 @@ import {database} from '../../util/firebase'
 
 import {distribuiCartas, pedirTruco} from '../../Model/Regras'
 
+import trucobtn from '../../Assents/trucobtn.png'
+import playbtn from '../../Assents/playbtn.png'
 
 import'./Game.scss'
 import Docker from '../../Components/Docker/Docker'
@@ -171,19 +173,13 @@ function Game(props){
                     <Docker nameRoom={nameRoom} nickName={nickName} />
                 </div>
 
-                <button onClick={()=>comecarPartida()} className={bot ? "botAtivo" : "botDesativo"}>Começar a jogar</button>
+                <button onClick={()=>comecarPartida()} className={bot ? "botAtivo" : "botDesativo"}>
+                    <img src={playbtn} alt="playbtn" className="trucobtn"/>
+                </button>
                 <img src={skolzera} alt="fundo" className="skolzera"/>
 
-                <button>
-                    Truco!
-                </button>
-
-                <button>
-                    Aceitar
-                </button>
-
-                <button>
-                    Correr
+                <button className="trucobtn">
+                    <img src={trucobtn} alt="truco" className="trucobtn"/>
                 </button>
                 
                 
