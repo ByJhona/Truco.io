@@ -13,7 +13,7 @@ import {cartaMaisForte} from '../../Model/Regras'
 
 export default function Docker({nickName, nameRoom}){
 
-    const [card, setCard] = useState({value: ' ', suit: ' ', target: -1})
+    const [card, setCard] = useState({suit: '', target: -1, value: ''})
     const [cardOponente, setCardOponente] = useState({value: ' ', suit: ' ', target: -1})
 
     useEffect(()=>{
@@ -28,11 +28,11 @@ export default function Docker({nickName, nameRoom}){
         onValue(ref(database, `rooms/${nameRoom}/desk/checkRound`),(data)=>{
             console.log(card, cardOponente)
             if(data.val() == 2){
-                alert("FIM DO ROUND DEFINIR GANHADOR")
+                //alert("FIM DO ROUND DEFINIR GANHADOR")
                 // atualiza o checkround para poder saber quando relizar o check dnv
                 update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
 
-                console.log(card, cardOponente)
+                
                 const ganhadora = cartaMaisForte(card, cardOponente)
 
                 if(ganhadora.target === -1){
@@ -56,12 +56,14 @@ export default function Docker({nickName, nameRoom}){
             
             const nomeREAL = name['nickname']
             //Veriffica qual deck vai exibir no docker com base no nome do usuario
-            if (nomeREAL == nickName) {
+            if (nomeREAL === nickName) {
                 //
               get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer1`)).then((data)=>{
                 if (data.exists()) {
                     console.log(data.val())
                     setCard(data.val())
+                    
+                   
                     
                 } else {
                     console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
@@ -75,6 +77,7 @@ export default function Docker({nickName, nameRoom}){
                 if (data.exists()) {
                     setCardOponente(data.val())
                     
+                    
                 } else {
                     console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    
                     setCardOponente({value: ' ', suit: ' ', target: -1})   
@@ -87,6 +90,7 @@ export default function Docker({nickName, nameRoom}){
             get(child(databaseRoot, `rooms/${nameRoom}/desk/cardPlayer2`)).then((data)=>{
                 if (data.exists()) {
                     setCard(data.val())
+                    
                     
                 } else {
                     console.log("Erro desconhecido, nada encontrado na base de dados, lascou")    

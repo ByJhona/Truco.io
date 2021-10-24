@@ -62,13 +62,12 @@ function Game(props){
         get(databaseRef).then((snapshot) => {
             
             const name = snapshot.val()
-            console.log(name)
-            console.log(nickName)
+            
             //const nomeREAL = name['nickname']
             //Veriffica qual jogador vai jogar 
             if (name === nickName && name !== "BOT") {
                 //
-                console.log("É sua vez de jogador")
+                
                 setTurn(true)
                 
                 
@@ -79,7 +78,7 @@ function Game(props){
 
             }else{
                 //
-                console.log("não é sua vez")
+                
                 setTurn(false)
                 
 
