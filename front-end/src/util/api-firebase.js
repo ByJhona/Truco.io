@@ -6,33 +6,6 @@ import { Redirect, useHistory } from 'react-router-dom'
 
 
 
-export const SignIn = async (nickname) => {
-    const databaseRef = ref(database)
-    
-    get(child(databaseRef, 'users/' + nickname)).then((snapshot) => {
-        if (snapshot.exists()) {
-            //Chamar o jogo a partir daqui
-          console.log(snapshot.val());
-          alert("Logado com sucesso")
-          update(ref(database, 'users/' + nickname), {
-              status: true
-          })
-
-          addOnlineUsers()
-          
-           
-          
-
-        } else {
-          alert("Usuário não encontrado no database");
-          
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-
-     
-};
 
 function randomNickNames(){
 
@@ -48,7 +21,7 @@ export const signInAnonymous = () => {
     
     onValue(databaseRef, (snapshot) => {
         if(snapshot.exists()){
-            alert("Usuário existente3")
+            console.log("Usuário existente3")
         }else{
             set(ref(database, 'users/' + nickNameAnonymous), {
                 nickname: nickNameAnonymous,
@@ -172,8 +145,8 @@ export function setDeck(deck){
   update(ref(database, 'sala01/'), {deck});
 }
 
-export function setRoom(room, desk, cards, player1, count){
-  update(ref(database, 'rooms/' + room), {desk, cards, player1, count});
+export function setRoom(room, desk, player1, countUsers){
+  update(ref(database, 'rooms/' + room), {desk, player1, countUsers});
 
 }
 
@@ -198,12 +171,12 @@ export function getRooms(){
 
 
 export function contaMaisUmUsuario(room){
-  const databaseRef = ref(database, `rooms/${room}/count`);
+  const databaseRef = ref(database, `rooms/${room}/countUsers`);
 
   get(databaseRef).then((data)=>{
     var count = data.val() + 1;
     console.log(data.val())
-    update(ref(database, `rooms/${room}/`), {count});
+    update(ref(database, `rooms/${room}/`), {countUsers: count});
 
   })
 

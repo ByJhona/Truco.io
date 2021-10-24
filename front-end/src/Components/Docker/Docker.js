@@ -27,7 +27,7 @@ export default function Docker({nickName, nameRoom}){
             pegaDeck();
         }))
 
-    pegaDeck()
+    //pegaDeck()
         
 
     }, [])
@@ -43,9 +43,9 @@ export default function Docker({nickName, nameRoom}){
         
         const databaseRoot = ref(database)
         get(child(databaseRoot, `rooms/${nameRoom}/player1/`)).then((snapshot) => {
-            console.log(snapshot.val())
+            
             const name = snapshot.val()
-            console.log(name['nickname'])
+            
             const nomeREAL = name['nickname']
             //Veriffica qual deck vai exibir no docker com base no nome do usuario
             if (nomeREAL == nickName) {
@@ -87,7 +87,7 @@ export default function Docker({nickName, nameRoom}){
             
             {
                 deck.map((data, index) => {
-                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName={nickName} suit={data.suit} value={data.value} id={index}/>
+                   if(verifica(data)) return <Carta nameRoom={nameRoom} nickName={nickName} suit={data.suit} value={data.value} target={data.target} id={index}/>
                 })
 
             }

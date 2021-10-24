@@ -13,6 +13,9 @@ import CardSalas from '../../Components/CardSalas/CardSalas'
 import Deck from '../../Model/Deck.model'
 import Room from '../../Model/Room.model'
 
+import {distribuiCartas} from '../../Model/Regras'
+
+
 
 
 
@@ -29,28 +32,29 @@ function Salas(props){
 
     const [countUsers, setCountUsers] = useState(0)
     //const [result, setResult] = useState([])
-    const desk = {teste:"oi"}
+    const desk = {turn: props.location.nickname, 
+        cardPlayer1: {suit:"", value: "", target: -1}, 
+        cardPlayer2: {suit:"", value: "", target: -1}, 
+        countRound: 0,
+        checkRound: 0,
+        round1: "",
+        round2: "",
+        round3: ""
+    }
     const player1 = {nickname: props.location.nickname, pontos: 0}
     
 
-    //Setando o deck de cartas do jogo
-    let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-    let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+    
 
-    var deck = new Deck();
-    deck.createDeck(suits, values)
-    deck.shuffle()
-    const cards = deck.getDeck()
-    //Insere o deck direto no banco de dado
-    //setDeck(deck.getDeck())
+    
 
     //Criando a sala
-    var room = new Room(criarNomeSala(), desk, cards, player1)
+    var room = new Room(criarNomeSala(), desk, player1)
 
 
 
     useEffect(()=>{
-        const databaseRef = ref(database, `rooms/${room.getRoom()}/count`)
+        const databaseRef = ref(database, `rooms/${room.getRoom()}/countUsers`)
         const databaseRefRoot = ref(database)
     
     get(child(databaseRefRoot, 'rooms/')).then((snapshot) =>{
@@ -83,24 +87,28 @@ function Salas(props){
     }, [])
 
     var result = (Object.entries(salas))
-    result.map( (index)=>{
+    result.map( (index) => {
     console.log(index[0]); 
 });
 
 
     function createRoom(){
     //setando a sala no firebase
-    console.log(room.getDesk())
-    setRoom(room.getRoom(), room.getDesk(), room.getDeck(), room.getPlayer1(), 1);
+        setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
 
-
-    
     }
 
     function criarNomeSala(){
         const min = 111;
         const max = 999;
         return ("Sala@" +(Math.floor(Math.random() * (max - min + 1)) + min).toString())
+    }
+
+    function jogarContraBot(){
+        setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
+
+        
+
     }
 
     
@@ -110,19 +118,31 @@ function Salas(props){
         <div className="container_body">
             
             <div className="main-Game">
-               {/*<Link to={`/game/${room.getRoom()}`} onClick={createRoom()}>Criar uma nova sala</Link>*/}
-                {/*<a href={`/game/${room.getRoom()}`} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaaaaaaaaaa</a>*/}
+               
                 <Link to={{
                     pathname: `/game/${room.getRoom()}`,
                     nickName: player1.nickname,
-                    nameRoom: room.getRoom()}} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
+                    nameRoom: room.getRoom(), bot: false
+                    }} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
+
+                
+
+                    
                 
             
                 {result.map( (data, index)=>{
-                    return <CardSalas data={data} player2={player1}/>
+                    return <CardSalas data={data} playerAUX={player1}/>
                     //return <Link to={`/game/${index[0]}`} key={index} onClick={iniciarPartida}>{index[0]}</Link>
                 })
                 }
+ 
+
+<Link to={{
+                    pathname: `/game/${room.getRoom()}`,
+                    nickName: player1.nickname,
+                    nameRoom: room.getRoom(), bot: true}} key={room.getRoom()} onClick={()=> jogarContraBot()}>Jogatina contra bot</Link>
+
+
                  
             
                 

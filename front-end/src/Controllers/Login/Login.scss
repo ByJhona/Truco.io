@@ -68,6 +68,13 @@ h1 {
 .logo {
   max-width: 400px;
   height: 400px;
+  animation: spin 60s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 form {

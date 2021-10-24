@@ -16,7 +16,7 @@ import Deck from '../deck'
 
 function Game(){
     let suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-    let values = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+    let values = ["J", "Q", "K", "A", 2, 3, 4, 6];
     const [localDeck, setLocalDeck] = useState([])
 
     var deck = new Deck();

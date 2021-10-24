@@ -31,16 +31,58 @@
 }
 
 .skolzera {
-  display: block;
-  position: center;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: auto;
-  margin-bottom: auto;
+  position: fixed;
+  max-width: 30rem;
+  left: 5.9%;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: spin 120s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .docker-bottom {
   display: flex;
   background-color: red;
   justify-content: center;
+}
+
+.divAtiva {
+  cursor: copy;
+  z-index: 4;
+}
+
+.divDesativa {
+  cursor: not-allowed;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.pAtiva {
+  background-color: green;
+  width: 5rem;
+}
+.pDesativa {
+  display: none;
+}
+
+.Docker {
+  background-color: green;
+  width: 100%;
+}
+
+.desk {
+  z-index: 8;
+}
+.botAtivo {
+  visibility: visible;
+}
+
+.botDesativo {
+  visibility: hidden;
 }
