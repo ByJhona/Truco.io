@@ -76,7 +76,6 @@ function Game(props){
                 
             } else if(name === "BOT"){
                 jogaCartaBot();
-                setTurn(false)
 
             }else{
                 //
@@ -108,7 +107,10 @@ function Game(props){
 
     function jogaCartaBot(){
         var carta = {}
-            setTimeout(()=> {
+
+        
+        
+            console.log(v, "<<<<<<<<<<<<<<")
             // comeco do get
             get(ref(database, `rooms/${nameRoom}/player2/deck/${v[0]}`)).then((data) => {
                 
@@ -145,7 +147,7 @@ function Game(props){
             //Fim do get
             //tira um elemento do vetor
             
-        },3000)
+        
     }
 
 
