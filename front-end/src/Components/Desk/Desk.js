@@ -31,20 +31,21 @@ export default function Docker({nickName, nameRoom}){
             }
         })
 
-        onValue(ref(database, `rooms/${nameRoom}/desk/countRound`),(data)=>{
+        /*onValue(ref(database, `rooms/${nameRoom}/desk/countRound`),(data)=>{
             const countRound = data.val();
             if(countRound === 3){
                 console.log("1")
+                console.log(countRound)
                 verificaQuemGanha(nameRoom, database)
                 distribuiCartas(nameRoom, database);
                 update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
             }
 
 
-        })
+        })*/
 
         //Encerra a partida
-        onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
+        /*onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
             const player = data.val();
             console.log("2")
             if(data.exists()){
@@ -55,9 +56,9 @@ export default function Docker({nickName, nameRoom}){
             }
 
             
-        })
+        })*/
 
-        onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
+        /*onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
             const player = data.val();
             console.log("3")
             if(data.exists()){
@@ -67,7 +68,7 @@ export default function Docker({nickName, nameRoom}){
     
             }
             
-        })
+        })*/
 
 
 
@@ -119,6 +120,9 @@ export default function Docker({nickName, nameRoom}){
                 }else{
                     update(ref(database, `rooms/${nameRoom}/desk/`), {round3: 'empate'})
                 }
+
+                verificaQuemGanha(nameRoom, database);
+                distribuiCartas(nameRoom, database);
                 //Recomeça a contar o round para uma nova partida
                 update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
             }
