@@ -46,7 +46,7 @@ export default function Docker({nickName, nameRoom}){
             const player = data.val();
             if(data.exists()){
                 if(player.pontos === 2){
-                    alert(`O jogador ${player.nickName} venceu o jogo`)
+                    alert(`O jogador ${player.nickname} venceu o jogo`)
                 }
     
             }
@@ -58,7 +58,7 @@ export default function Docker({nickName, nameRoom}){
             const player = data.val();
             if(data.exists()){
                 if(player.pontos === 2){
-                    alert(`O jogador ${player.nickName} venceu o jogo`)
+                    alert(`O jogador ${player.nickname} venceu o jogo`)
                 }
     
             }
