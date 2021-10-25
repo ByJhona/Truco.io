@@ -36,7 +36,7 @@ export default function Docker({nickName, nameRoom}){
             if(countRound === 3){
                 verificaQuemGanha(nameRoom, database)
                 distribuiCartas(nameRoom, database);
-                //update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
+                update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
             }
 
 
