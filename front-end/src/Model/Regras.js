@@ -103,12 +103,17 @@ function identificarQualJogador(winPlayer, player1, player2){
 }
 
 function identificarQualJogadorPonto(winPlayer, player1, player2, player1Points, player2Points, point, nameRoom, database){
-    if (winPlayer == player1){
+    if (winPlayer === player1){
         var winPoint = point + player1Points;
-        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})            
-    }else if (winPlayer == player2){
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
+        console.log('Se aparecer essa imagem, está certo')
+        alert(`O jogador ${player1} venceu o jogo`)
+        
+    }else if (winPlayer === player2){
         var winPoint = point + player2Points;
-        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})            
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
+        console.log('Se aparecer essa imagem, está certo')            
+        alert(`O jogador ${player2} venceu o jogo`)
     }
 }
 
@@ -127,28 +132,36 @@ export function verificaQuemGanha(nameRoom, database){
         const player2Points = sala.player2.pontos
         const player1 = sala.player1.nickname
         const player2 = sala.player2.nickname
+        console.log('Chegou na função verifica quem ganha')
+        console.log(winList)
 
         if (winList.filter((data) => {return data === player1}).length > winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player1Points
             update(ref(database, `/rooms/${nameRoom}/player1`), {pontos: winPoint})
+            alert(`O jogador ${player1} venceu o jogo`)
 
         }else if (winList.filter((data) => {return data === player1}).length < winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player2Points
             update(ref(database, `/rooms/${nameRoom}/player2`), {pontos: winPoint})
+            alert(`O jogador ${player2} venceu o jogo`)
 
-        }else if (winList[0] == empate && winList[1] != empate){
+        }else if (winList[0] === "empate" && winList[1] != "empate"){
+            console.log('Entra no else if')
             const player = identificarQualJogador(winList[1], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[1] == empate && winList[0] != empate){
+        }else if (winList[1] === "empate" && winList[0] != "empate"){
+            console.log('Entra no else if')
             const player = identificarQualJogador(winList[0], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[0] == empate && winList[1] == empate && winList[2] != empate){
+        }else if (winList[0] === "empate" && winList[1] === "empate" && winList[2] != "empate"){
+            console.log('Entra no else if')
             const player = identificarQualJogador(winList[2], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[2] == empate && winList[0] != empate){
+        }else if (winList[2] === "empate" && winList[0] != "empate"){
+            console.log('Entra no else if')
             const player = identificarQualJogador(winList[0], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
         }})
