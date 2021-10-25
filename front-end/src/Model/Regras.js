@@ -115,11 +115,11 @@ export function verificaQuemGanha(nameRoom, database){
         const player1 = sala.player1.nickname
         const player2 = sala.player2.nickname
 
-        if (winList.filter(x == player1) > winList.filter(x == player2)){
+        if (winList.filter(player1) > winList.filter(player2)){
             var winPoint = point + player1Points
             update(ref(database, `/rooms/${nameRoom}/player1`), {pontos: winPoint})
 
-        }else if (winList.filter(x == player1) > winList.filter(x == player2)){
+        }else if (winList.filter(player1) < winList.filter(player2)){
             var winPoint = point + player2Points
             update(ref(database, `/rooms/${nameRoom}/player2`), {pontos: winPoint})
 
