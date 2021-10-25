@@ -102,6 +102,17 @@ function identificarQualJogador(winPlayer, player1, player2){
     }
 }
 
+function identificarQualJogadorPonto(winPlayer, player1, player2, player1Points, player2Points, point, nameRoom, database){
+    if (winPlayer == player1){
+        var winPoint = point + player1Points;
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})            
+    }else if (winPlayer == player2){
+        var winPoint = point + player2Points;
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})            
+    }
+}
+
+
 export function verificaQuemGanha(nameRoom, database){
     get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
         const sala = data.val()
@@ -117,29 +128,32 @@ export function verificaQuemGanha(nameRoom, database){
         const player1 = sala.player1.nickname
         const player2 = sala.player2.nickname
 
-        if (winList.filter(player1) > winList.filter(player2)){
+        if (winList.filter((data) => {return data === player1}).length > winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player1Points
             update(ref(database, `/rooms/${nameRoom}/player1`), {pontos: winPoint})
 
-        }else if (winList.filter(player1) < winList.filter(player2)){
+        }else if (winList.filter((data) => {return data === player1}).length < winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player2Points
             update(ref(database, `/rooms/${nameRoom}/player2`), {pontos: winPoint})
 
         }else if (winList[0] == empate && winList[1] != empate){
             const player = identificarQualJogador(winList[1], player1, player2)
-            update(ref(database, `/rooms/${nameRoom}/${player}`), {pontos: winPoint})
+            identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
         }else if (winList[1] == empate && winList[0] != empate){
             const player = identificarQualJogador(winList[0], player1, player2)
-            update(ref(database, `/rooms/${nameRoom}/${player}`), {pontos: winPoint})
+            identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
         }else if (winList[0] == empate && winList[1] == empate && winList[2] != empate){
             const player = identificarQualJogador(winList[2], player1, player2)
-            update(ref(database, `/rooms/${nameRoom}/${player}`), {pontos: winPoint})
+            identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
         }else if (winList[2] == empate && winList[0] != empate){
             const player = identificarQualJogador(winList[0], player1, player2)
-            update(ref(database, `/rooms/${nameRoom}/${player}`), {pontos: winPoint})            
+            
+            identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
+            
 
         }})
 }
+

@@ -7,7 +7,7 @@ import {database} from '../../util/firebase'
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 
 import CardDesk from '../CardDesk/CardDesk'
-import {cartaMaisForte} from '../../Model/Regras'
+import {cartaMaisForte, verificaQuemGanha, distribuiCartas} from '../../Model/Regras'
 
 
 
@@ -18,7 +18,6 @@ export default function Docker({nickName, nameRoom}){
 
     useEffect(()=>{
         
-        
         //const databaseRefPegaCard = ref(database, `rooms/${nameRoom}/desk`);
         onChildChanged(ref(database, `rooms/${nameRoom}/desk`), ((data) => {
             
@@ -28,17 +27,16 @@ export default function Docker({nickName, nameRoom}){
         onValue(ref(database, `rooms/${nameRoom}/desk/checkRound`),(data)=>{
             
             if(data.val() === 2){
-                //alert("FIM DO ROUND DEFINIR GANHADOR")
-                // atualiza o checkround para poder saber quando relizar o check dnv
-
                 comparaCartas();
+            }
+        })
 
-                //if(ganhadora.target === -1){
-            
-                    //update(ref(database, `rooms/${nameRoom}/desk/`), {round1: 'empate'})
-                //}
-                //update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
-
+        onValue(ref(database, `rooms/${nameRoom}/desk/countRound`),(data)=>{
+            const countRound = data.val();
+            if(countRound === 3){
+                verificaQuemGanha(nameRoom, database)
+                distribuiCartas(nameRoom, database);
+                update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
             }
         })
 
@@ -60,10 +58,12 @@ export default function Docker({nickName, nameRoom}){
             countRound += 1;
 
             const ganhadora = cartaMaisForte(cardPlayer1, cardPlayer2);
+            console.log(ganhadora)
 
             if(countRound === 1){
                 if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
                     update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer1})
+                    //tem erro de logica aqui....
                 }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
                     update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer2})
                 }else{

@@ -122,6 +122,8 @@ function Game(props){
                     //Remove do deck do bot
                     update(ref(database, `rooms/${nameRoom}/player2/deck/${v[0]}`), {suit: "0", value: ' ', target: -1});
                     v.shift()
+
+                    if(v.length === 0) v = [0, 1, 2]
                     //atualiza para checagem das cartas -- Encontrada no arquivo de cartas refatorar
                     get(child(ref(database), `rooms/${nameRoom}/player1/`)).then((snapshot)=>{
                         const name = snapshot.val()
@@ -147,7 +149,7 @@ function Game(props){
             })
             //Fim do get
             //tira um elemento do vetor
-        }, 10000)
+        }, 2000)
         
     }
 
