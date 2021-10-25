@@ -160,7 +160,7 @@ function Game(props){
     
     return(
       
-        <div className="container_body">
+        <div className="container_body_game">
             
             <div className="main-Game">
                 

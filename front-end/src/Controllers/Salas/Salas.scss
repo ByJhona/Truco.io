@@ -20,6 +20,7 @@
 .main-Game {
   display: flex;
   position: relative;
+  align-items: center;
   justify-content: start;
   flex-direction: column;
   width: 70vw;
@@ -30,15 +31,60 @@
   border-radius: 0.5rem;
 }
 
-.skolzera {
-  display: block;
-  position: center;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .docker-bottom {
   display: flex;
   background-color: red;
   justify-content: center;
+}
+
+.container-botoes {
+  display: flex;
+  flex-direction: row;
+}
+
+.criar-sala {
+  display: flex;
+  justify-content: center;
+  max-width: 16rem;
+  min-width: 10rem;
+  height: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  background-color: rgb(4, 146, 189);
+  border: 0.5px solid rgba(34, 34, 34, 0.678);
+
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.jogar-bot {
+  display: flex;
+  justify-content: center;
+  max-width: 16rem;
+  min-width: 10rem;
+  height: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  background-color: rgb(19, 161, 31);
+  border: 0.5px solid rgba(34, 34, 34, 0.678);
+
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.salas-disponiveis {
+  display: flex;
+  justify-content: center;
+  height: 2rem;
+  width: 90%;
+  background-color: aliceblue;
+  margin: 0 0.5rem 1rem 0.5rem;
+  padding: 0.3rem;
+
+  border: 1px solid rgb(148, 143, 143);
+  border-radius: 0.5rem 0.5rem 0 0;
 }
