@@ -13,7 +13,7 @@ import {distribuiCartas} from '../../Model/Regras'
 
 
 
-
+import './CardSalas.scss'
 
 
 
@@ -42,7 +42,12 @@ function CardSalas({data, playerAUX}){
             pathname: `/game/${nameRoom}`,
             nameRoom: data[0],
             nickName: player2.nickname
-          }} onClick={() => iniciarPartida(nameRoom)}>{nameRoom}</Link>
+          }} onClick={() => iniciarPartida(nameRoom)} 
+          style={{textDecoration: 'none', 
+          
+          justifyContent: 'center', 
+          display: 'flex'}}
+          >{nameRoom}</Link>
             
             
 

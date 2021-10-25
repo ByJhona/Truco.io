@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import ReactDOM from 'react-dom';
-import skolzera from '../../Assents/skolzera.png'
+
 
 import {getRooms, setRoom, contaMaisUmUsuario} from '../../util/api-firebase'
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildAdded } from "firebase/database";
@@ -28,6 +27,8 @@ import'./Salas.scss'
 function Salas(props){
     //const location = useLocation()
     const [salas, setSalas] = useState([]);
+    const [teste, setTeste] = useState([])
+    
     
 
     const [countUsers, setCountUsers] = useState(0)
@@ -58,6 +59,9 @@ function Salas(props){
     //Criando a sala
     var room = new Room(criarNomeSala(), desk, player1)
 
+    // 
+    
+
 
 
     useEffect(()=>{
@@ -68,13 +72,14 @@ function Salas(props){
         if (snapshot.exists()) {
             //array = [...array, snapshot.val()]
             //console.log(array)
-            //console.log(snapshot.val())
+            console.log(snapshot.val())
             setSalas(snapshot.val())
+            
             //setResult(Object.entries(salas))
             
             
         } else {
-          alert("Erro desconhecido, nada encontrado na base de dados, lascou")
+          console.log("Erro desconhecido, nada encontrado na base de dados, lascou")
             
           //setSalas([])
         }
@@ -87,20 +92,24 @@ function Salas(props){
 
 
       onValue(databaseRef, (data)=> {
-          console.log(data.val())
+          
          setCountUsers(data.val())
       })
 
     }, [])
 
     var result = (Object.entries(salas))
-    result.map( (index) => {
-    console.log(index[0]); 
-});
+    var temp = result.filter((data)=>{
+        if(data[1].countUsers == 1){
+            return data[0]
+        }
+
+    })
 
 
     function createRoom(){
     //setando a sala no firebase
+        
         setRoom(room.getRoom(), room.getDesk(), room.getPlayer1(), 1);
 
     }
@@ -125,29 +134,36 @@ function Salas(props){
         <div className="container_body">
             
             <div className="main-Game">
-               
-                <Link to={{
+
+                <div className="container-botoes">
+                    <Link to={{
                     pathname: `/game/${room.getRoom()}`,
                     nickName: player1.nickname,
                     nameRoom: room.getRoom(), bot: false
-                    }} key={room.getRoom()} onClick={createRoom}>Criar uma nova salaaa</Link>
+                    }} key="47857" onClick={() => createRoom()}
+                    className="criar-sala"
+                    >Criar uma nova sala</Link>
 
-                
+                    <Link to={{
+                    pathname: `/game/${room.getRoom()}`,
+                    nickName: player1.nickname,
+                    nameRoom: room.getRoom(), bot: true}}
+                    className="jogar-bot"
+                     key="54658" onClick={()=> jogarContraBot()}>Jogar contra o BoTruco
+                    </Link>
+                </div>
 
                     
-                
+                <p className="salas-disponiveis">Salas disponíveis</p>
             
-                {result.map( (data, index)=>{
-                    return <CardSalas data={data} playerAUX={player1}/>
+                {temp.map( (data, index)=>{
+                    return <CardSalas data={data} playerAUX={player1} key={index}/>
                     //return <Link to={`/game/${index[0]}`} key={index} onClick={iniciarPartida}>{index[0]}</Link>
                 })
                 }
  
 
-<Link to={{
-                    pathname: `/game/${room.getRoom()}`,
-                    nickName: player1.nickname,
-                    nameRoom: room.getRoom(), bot: true}} key={room.getRoom()} onClick={()=> jogarContraBot()}>Jogatina contra bot</Link>
+                
 
 
                  

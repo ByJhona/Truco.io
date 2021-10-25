@@ -4,7 +4,7 @@
   margin: 0;
 }
 
-.container_body {
+.container_body_game {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +20,8 @@
 .main-Game {
   display: flex;
   position: relative;
-  justify-content: start;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   width: 70vw;
   height: 90vh;
@@ -55,13 +56,14 @@
 .divAtiva {
   cursor: copy;
   z-index: 4;
+  width: 60%;
 }
 
 .divDesativa {
   cursor: not-allowed;
   pointer-events: none;
   z-index: 4;
-  align-self: center;
+  //align-self: center;
   width: 60%;
 }
 
@@ -71,7 +73,7 @@
   border-radius: 0.3rem;
 }
 .pDesativa {
-  display: none;
+  visibility: hidden;
 }
 
 .Docker {

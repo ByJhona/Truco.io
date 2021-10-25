@@ -15,6 +15,7 @@ export default function Docker({nickName, nameRoom}){
 
     const [card, setCard] = useState({suit: 'clubs', target: -1, value: ''})
     const [cardOponente, setCardOponente] = useState({value: 'hearts', suit: ' ', target: -1})
+    const [nameOponnent, setNameOponnent] = useState('')
 
     useEffect(()=>{
         
@@ -145,13 +146,16 @@ export default function Docker({nickName, nameRoom}){
 
             const nickNamePlayer1 = sala.player1.nickname;
             const nickNamePlayer2 = sala.player2.nickname;
+            
 
             if(nickName === nickNamePlayer1){
                 setCard(cardPlayer1);
                 setCardOponente(cardPlayer2);
+                setNameOponnent(nickNamePlayer2)
             }else{
                 setCard(cardPlayer2);
                 setCardOponente(cardPlayer1);
+                setNameOponnent(nickNamePlayer1)
             }
 
         
@@ -178,7 +182,7 @@ export default function Docker({nickName, nameRoom}){
             </div>
 
             <div>
-                <p>Carta do oponente</p>
+                <p>Carta do {nameOponnent}</p>
                 <CardDesk nameRoom={nameRoom} nickName={nickName} suit={cardOponente.suit} value={cardOponente.value}/>
             </div>
             
