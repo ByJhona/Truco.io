@@ -39,7 +39,14 @@ function Salas(props){
         checkRound: 0,
         round1: "",
         round2: "",
-        round3: ""
+        round3: "",
+        scoreRound: 1,
+        truco: {
+            //teste: false
+            whoAsk: '',
+            whoAccepted: '',
+            trucoStatus: false
+        }
     }
     const player1 = {nickname: props.location.nickname, pontos: 0}
     

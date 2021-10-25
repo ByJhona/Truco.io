@@ -6,8 +6,10 @@ import {setDeckBD, setDeck, setRoom} from '../../util/api-firebase'
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 import {database} from '../../util/firebase'
 
-import {distribuiCartas} from '../../Model/Regras'
+import {distribuiCartas, pedirTruco} from '../../Model/Regras'
 
+import trucobtn from '../../Assents/trucobtn.png'
+import playbtn from '../../Assents/playbtn.png'
 
 import'./Game.scss'
 import Docker from '../../Components/Docker/Docker'
@@ -62,13 +64,12 @@ function Game(props){
         get(databaseRef).then((snapshot) => {
             
             const name = snapshot.val()
-            console.log(name)
-            console.log(nickName)
+            
             //const nomeREAL = name['nickname']
             //Veriffica qual jogador vai jogar 
             if (name === nickName && name !== "BOT") {
                 //
-                console.log("É sua vez de jogador")
+                
                 setTurn(true)
                 
                 
@@ -79,7 +80,7 @@ function Game(props){
 
             }else{
                 //
-                console.log("não é sua vez")
+                
                 setTurn(false)
                 
 
@@ -109,7 +110,7 @@ function Game(props){
         var carta = {}
 
         
-        
+            setTimeout(() => {
             console.log(v, "<<<<<<<<<<<<<<")
             // comeco do get
             get(ref(database, `rooms/${nameRoom}/player2/deck/${v[0]}`)).then((data) => {
@@ -121,6 +122,8 @@ function Game(props){
                     //Remove do deck do bot
                     update(ref(database, `rooms/${nameRoom}/player2/deck/${v[0]}`), {suit: "0", value: ' ', target: -1});
                     v.shift()
+
+                    if(v.length === 0) v = [0, 1, 2]
                     //atualiza para checagem das cartas -- Encontrada no arquivo de cartas refatorar
                     get(child(ref(database), `rooms/${nameRoom}/player1/`)).then((snapshot)=>{
                         const name = snapshot.val()
@@ -146,7 +149,7 @@ function Game(props){
             })
             //Fim do get
             //tira um elemento do vetor
-            
+        }, 2000)
         
     }
 
@@ -172,10 +175,14 @@ function Game(props){
                     <Docker nameRoom={nameRoom} nickName={nickName} />
                 </div>
 
-                <button onClick={()=>comecarPartida()} className={bot ? "botAtivo" : "botDesativo"}>Começar a jogar</button>
+                <button onClick={()=>comecarPartida()} className={bot ? "botAtivo" : "botDesativo"}>
+                    <img src={playbtn} alt="playbtn" className="trucobtn"/>
+                </button>
                 <img src={skolzera} alt="fundo" className="skolzera"/>
 
-                
+                <button className="trucobtn">
+                    <img src={trucobtn} alt="truco" className="trucobtn"/>
+                </button>
                 
                 
             </div>

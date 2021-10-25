@@ -33,11 +33,11 @@
 .skolzera {
   position: fixed;
   max-width: 30rem;
-  left: 5.9%;
   z-index: 0;
   opacity: 0.3;
   pointer-events: none;
   animation: spin 120s linear infinite;
+  align-self: center;
 }
 
 @keyframes spin {
@@ -61,11 +61,14 @@
   cursor: not-allowed;
   pointer-events: none;
   z-index: 4;
+  align-self: center;
+  width: 60%;
 }
 
 .pAtiva {
   background-color: green;
   width: 5rem;
+  border-radius: 0.3rem;
 }
 .pDesativa {
   display: none;
@@ -78,11 +81,25 @@
 
 .desk {
   z-index: 8;
+  align-self: center;
+  width: 60%;
 }
 .botAtivo {
   visibility: visible;
+  background-color: #ffffff00;
+  border: 0px;
+  cursor: pointer;
 }
 
 .botDesativo {
   visibility: hidden;
+  width: 0px;
+  height: 0px;
+}
+
+.trucobtn {
+  background-color: #ffffff00;
+  border: 0px;
+  cursor: pointer;
+  //align-self: start;
 }
