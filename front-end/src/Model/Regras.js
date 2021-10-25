@@ -107,13 +107,13 @@ function identificarQualJogadorPonto(winPlayer, player1, player2, player1Points,
         var winPoint = point + player1Points;
         update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
         console.log('Se aparecer essa imagem, está certo')
-        alert(`O jogador ${player1} venceu o jogo`)
+        alert(`O jogador ${player1} venceu a partida`)
         
     }else if (winPlayer === player2){
         var winPoint = point + player2Points;
         update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
         console.log('Se aparecer essa imagem, está certo')            
-        alert(`O jogador ${player2} venceu o jogo`)
+        alert(`O jogador ${player2} venceu a partida`)
     }
 }
 
@@ -138,12 +138,12 @@ export function verificaQuemGanha(nameRoom, database){
         if (winList.filter((data) => {return data === player1}).length > winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player1Points
             update(ref(database, `/rooms/${nameRoom}/player1`), {pontos: winPoint})
-            alert(`O jogador ${player1} venceu o jogo`)
+            alert(`O jogador ${player1} venceu a partida`)
 
         }else if (winList.filter((data) => {return data === player1}).length < winList.filter((data) => {return data === player2}).length){
             var winPoint = point + player2Points
             update(ref(database, `/rooms/${nameRoom}/player2`), {pontos: winPoint})
-            alert(`O jogador ${player2} venceu o jogo`)
+            alert(`O jogador ${player2} venceu a partida`)
 
         }else if (winList[0] === "empate" && winList[1] != "empate"){
             console.log('Entra no else if')
@@ -165,5 +165,9 @@ export function verificaQuemGanha(nameRoom, database){
             const player = identificarQualJogador(winList[0], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
         }})
+
+        //
+        
+        //
 }
 

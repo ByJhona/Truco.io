@@ -46,30 +46,30 @@ export default function Docker({nickName, nameRoom}){
         })*/
 
         //Encerra a partida
-        /*onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
+        onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
             const player = data.val();
-            console.log("2")
+            
             if(data.exists()){
-                if(player.pontos === 2){
+                if(player.pontos === 7){
                     alert(`O jogador ${player.nickname} venceu o jogo`)
                 }
     
             }
 
             
-        })*/
+        })
 
-        /*onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
+        onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
             const player = data.val();
-            console.log("3")
+            
             if(data.exists()){
-                if(player.pontos === 2){
+                if(player.pontos === 7){
                     alert(`O jogador ${player.nickname} venceu o jogo`)
                 }
     
             }
             
-        })*/
+        })
 
 
 
