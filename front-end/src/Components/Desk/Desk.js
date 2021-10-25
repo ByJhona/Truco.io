@@ -20,7 +20,7 @@ export default function Docker({nickName, nameRoom}){
         
         //const databaseRefPegaCard = ref(database, `rooms/${nameRoom}/desk`);
         onChildChanged(ref(database, `rooms/${nameRoom}/desk`), ((data) => {
-            
+            console.log("0")
             pegaCard();
         }))
         // Verifica quando todos os usuarios jogares
@@ -34,6 +34,7 @@ export default function Docker({nickName, nameRoom}){
         onValue(ref(database, `rooms/${nameRoom}/desk/countRound`),(data)=>{
             const countRound = data.val();
             if(countRound === 3){
+                console.log("1")
                 verificaQuemGanha(nameRoom, database)
                 distribuiCartas(nameRoom, database);
                 update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
@@ -41,9 +42,11 @@ export default function Docker({nickName, nameRoom}){
 
 
         })
+
         //Encerra a partida
         onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
             const player = data.val();
+            console.log("2")
             if(data.exists()){
                 if(player.pontos === 2){
                     alert(`O jogador ${player.nickname} venceu o jogo`)
@@ -56,6 +59,7 @@ export default function Docker({nickName, nameRoom}){
 
         onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
             const player = data.val();
+            console.log("3")
             if(data.exists()){
                 if(player.pontos === 2){
                     alert(`O jogador ${player.nickname} venceu o jogo`)
