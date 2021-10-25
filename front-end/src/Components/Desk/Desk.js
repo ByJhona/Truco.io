@@ -36,9 +36,38 @@ export default function Docker({nickName, nameRoom}){
             if(countRound === 3){
                 verificaQuemGanha(nameRoom, database)
                 distribuiCartas(nameRoom, database);
-                update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
+                //update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
             }
+
+
         })
+        //Encerra a partida
+        onValue(ref(database, `rooms/${nameRoom}/player1/`),(data)=>{
+            const player = data.val();
+            if(data.exists()){
+                if(player.pontos === 2){
+                    alert(`O jogador ${player.nickName} venceu o jogo`)
+                }
+    
+            }
+
+            
+        })
+
+        onValue(ref(database, `rooms/${nameRoom}/player2/`),(data)=>{
+            const player = data.val();
+            if(data.exists()){
+                if(player.pontos === 2){
+                    alert(`O jogador ${player.nickName} venceu o jogo`)
+                }
+    
+            }
+            
+        })
+
+
+
+
 
     }, [])
 
@@ -56,9 +85,10 @@ export default function Docker({nickName, nameRoom}){
 
             var countRound = sala.desk.countRound;
             countRound += 1;
+            update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
 
             const ganhadora = cartaMaisForte(cardPlayer1, cardPlayer2);
-            console.log(ganhadora)
+
 
             if(countRound === 1){
                 if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
@@ -91,7 +121,7 @@ export default function Docker({nickName, nameRoom}){
 
             
             update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
-            update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
+            //update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
         
         
         })

@@ -150,10 +150,7 @@ export function verificaQuemGanha(nameRoom, database){
 
         }else if (winList[2] == empate && winList[0] != empate){
             const player = identificarQualJogador(winList[0], player1, player2)
-            
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
-            
-
         }})
 }
 
