@@ -1,32 +1,32 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 //import {getDeckBD} from '../../util/api-firebase'
 import './Desk.scss'
 
-import {database} from '../../util/firebase'
+import { database } from '../../util/firebase'
 
 import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildRemoved } from "firebase/database";
 
 import CardDesk from '../CardDesk/CardDesk'
-import {cartaMaisForte, verificaQuemGanha, distribuiCartas} from '../../Model/Regras'
+import { cartaMaisForte, verificaQuemGanha, distribuiCartas } from '../../Model/Regras'
 
 
 
-export default function Docker({nickName, nameRoom}){
+export default function Docker({ nickName, nameRoom }) {
 
-    const [card, setCard] = useState({suit: 'clubs', target: -1, value: ''})
-    const [cardOponente, setCardOponente] = useState({value: 'hearts', suit: ' ', target: -1})
+    const [card, setCard] = useState({ suit: 'clubs', target: -1, value: '' })
+    const [cardOponente, setCardOponente] = useState({ value: 'hearts', suit: ' ', target: -1 })
 
-    useEffect(()=>{
-        
+    useEffect(() => {
+
         //const databaseRefPegaCard = ref(database, `rooms/${nameRoom}/desk`);
         onChildChanged(ref(database, `rooms/${nameRoom}/desk`), ((data) => {
             console.log("0")
             pegaCard();
         }))
         // Verifica quando todos os usuarios jogares
-        onValue(ref(database, `rooms/${nameRoom}/desk/checkRound`),(data)=>{
-            
-            if(data.val() === 2){
+        onValue(ref(database, `rooms/${nameRoom}/desk/checkRound`), (data) => {
+
+            if (data.val() === 2) {
                 comparaCartas();
             }
         })
@@ -77,9 +77,9 @@ export default function Docker({nickName, nameRoom}){
     }, [])
 
     // inicio da funcao compara cartas
-    function comparaCartas(){
-        
-        get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+    function comparaCartas() {
+
+        get(ref(database, `/rooms/${nameRoom}`)).then((data) => {
             const sala = data.val()
 
             const cardPlayer1 = sala.desk.cardPlayer1;
@@ -90,58 +90,58 @@ export default function Docker({nickName, nameRoom}){
 
             var countRound = sala.desk.countRound;
             countRound += 1;
-            update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
+            update(ref(database, `rooms/${nameRoom}/desk/`), { countRound: countRound })
 
             const ganhadora = cartaMaisForte(cardPlayer1, cardPlayer2);
 
 
-            if(countRound === 1){
-                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer1})
+            if (countRound === 1) {
+                if (ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round1: nickNamePlayer1 })
                     //tem erro de logica aqui....
-                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: nickNamePlayer2})
-                }else{
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round1: 'empate'})
+                } else if (ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round1: nickNamePlayer2 })
+                } else {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round1: 'empate' })
                 }
-            }else if(countRound === 2){
-                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: nickNamePlayer1})
-                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: nickNamePlayer2})
-                }else{
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round2: 'empate'})
+            } else if (countRound === 2) {
+                if (ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round2: nickNamePlayer1 })
+                } else if (ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round2: nickNamePlayer2 })
+                } else {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round2: 'empate' })
                 }
-            }else{
-                if(ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: nickNamePlayer1})
-                }else if(ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target){
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: nickNamePlayer2})
-                }else{
-                    update(ref(database, `rooms/${nameRoom}/desk/`), {round3: 'empate'})
+            } else {
+                if (ganhadora.suit === cardPlayer1.suit && ganhadora.value === cardPlayer1.value && ganhadora.target === cardPlayer1.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round3: nickNamePlayer1 })
+                } else if (ganhadora.suit === cardPlayer2.suit && ganhadora.value === cardPlayer2.value && ganhadora.target === cardPlayer2.target) {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round3: nickNamePlayer2 })
+                } else {
+                    update(ref(database, `rooms/${nameRoom}/desk/`), { round3: 'empate' })
                 }
 
                 verificaQuemGanha(nameRoom, database);
                 distribuiCartas(nameRoom, database);
                 //Recomeça a contar o round para uma nova partida
-                update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: 0})
+                update(ref(database, `rooms/${nameRoom}/desk/`), { countRound: 0 })
             }
 
-            
-            update(ref(database, `rooms/${nameRoom}/desk/`), {checkRound: 0})
+
+            update(ref(database, `rooms/${nameRoom}/desk/`), { checkRound: 0 })
             //update(ref(database, `rooms/${nameRoom}/desk/`), {countRound: countRound})
-        
-        
+
+
         })
-        
+
 
     }
     // termino da funcao compara cartas
     //inicio pegadeck
 
-    function pegaCard(){
-        
-        get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+    function pegaCard() {
+
+        get(ref(database, `/rooms/${nameRoom}`)).then((data) => {
             const sala = data.val()
 
             const cardPlayer1 = sala.desk.cardPlayer1;
@@ -150,44 +150,44 @@ export default function Docker({nickName, nameRoom}){
             const nickNamePlayer1 = sala.player1.nickname;
             const nickNamePlayer2 = sala.player2.nickname;
 
-            if(nickName === nickNamePlayer1){
+            if (nickName === nickNamePlayer1) {
                 setCard(cardPlayer1);
                 setCardOponente(cardPlayer2);
-            }else{
+            } else {
                 setCard(cardPlayer2);
                 setCardOponente(cardPlayer1);
             }
 
-        
-        
+
+
         })
 
     }
 
     //fim pegadeck
 
-    function fimRound(data){
-        if(card.suit == "0"){
+    function fimRound(data) {
+        if (card.suit == "0") {
             return false
         }
         return true
     }
 
-    return(
+    return (
         <div className="container-desk">
 
             <div>
                 <p>Sua carta</p>
-                <CardDesk nameRoom={nameRoom} nickName={nickName} suit={card.suit} value={card.value}/>
+                <CardDesk nameRoom={nameRoom} nickName={nickName} suit={card.suit} value={card.value} />
             </div>
 
             <div>
                 <p>Carta do oponente</p>
-                <CardDesk nameRoom={nameRoom} nickName={nickName} suit={cardOponente.suit} value={cardOponente.value}/>
+                <CardDesk nameRoom={nameRoom} nickName={nickName} suit={cardOponente.suit} value={cardOponente.value} />
             </div>
-            
-            
-            
+
+
+
         </div>
     )
 }

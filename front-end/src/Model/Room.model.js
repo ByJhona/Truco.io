@@ -1,30 +1,30 @@
-export default class Room{
-    constructor(room, desk, player1){
-        
+export default class Room {
+    constructor(room, desk, player1) {
+
         this.room = room;
         this.desk = desk;
-        
+
         this.player1 = player1;
-        
+
 
     }
-    
 
-    getRoom(){
+
+    getRoom() {
         return this.room;
     }
 
-    getDesk(){
+    getDesk() {
         return this.desk;
     }
 
-    getPlayer1(){
+    getPlayer1() {
         return this.player1;
     }
 
-    
 
-    
 
-    
+
+
+
 }

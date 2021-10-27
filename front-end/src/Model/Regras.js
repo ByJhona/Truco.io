@@ -6,19 +6,19 @@ import { ref, set, get, child, onValue, update, remove, onChildChanged, onChildA
 
 export function cartaMaisForte(card1, card2) {
     console.log(card1, card2)
-    
-    if(card1.target > card2.target){
+
+    if (card1.target > card2.target) {
         return card1
-    }else if(card1.target < card2.target){
+    } else if (card1.target < card2.target) {
         return card2;
-    }else{
+    } else {
         console.log(card1, card2)
-        return {suit:'',value:'', target: -1}
+        return { suit: '', value: '', target: -1 }
     }
-    
+
 }
 
-export function distribuiCartas(nameRoom, database){
+export function distribuiCartas(nameRoom, database) {
     //criação de manilhas especiais direto na funcao do models
 
     var deckAUX = new Deck();
@@ -31,23 +31,23 @@ export function distribuiCartas(nameRoom, database){
     var deckB = []
     var i, j = 0;
 
-    for(i = 0; i < 3; i++){
+    for (i = 0; i < 3; i++) {
         deckA.push(deckAUX.getCard(j))
         j++;
     }
     //console.log(deckA)
-    for(i = 0; i < 3; i++){
+    for (i = 0; i < 3; i++) {
         deckB.push(deckAUX.getCard(j))
         j++;
     }
     var deck = deckA;
-    update(ref(database, `/rooms/${nameRoom}/player1`), {deck});
+    update(ref(database, `/rooms/${nameRoom}/player1`), { deck });
 
     deck = deckB;
-    update(ref(database, `/rooms/${nameRoom}/player2`), {deck});   
+    update(ref(database, `/rooms/${nameRoom}/player2`), { deck });
 }
 
-export function aceitarOuCorrer(player ,nameRoom, database){
+export function aceitarOuCorrer(player, nameRoom, database) {
     //confirm('Oi')
 }
 
@@ -56,24 +56,25 @@ export function aceitarOuCorrer(player ,nameRoom, database){
  * @param  {} nameRoom
  * @param  {} database
  */
-export function pedirTruco(player, nameRoom, database){
+export function pedirTruco(player, nameRoom, database) {
     //pedir o truco
 
-    update(ref(database, `/rooms/${nameRoom}/desk/truco`), {whoAsk: player})
-    get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+    update(ref(database, `/rooms/${nameRoom}/desk/truco`), { whoAsk: player })
+    get(ref(database, `/rooms/${nameRoom}`)).then((data) => {
         const mesa = data.val()
         const player1 = mesa.player1.nickname
         const player2 = mesa.player2.nickname
 
-        if (player == player1){
+        if (player == player1) {
             var playerWhoNeedAccepted = player2
             aceitarOuCorrer(playerWhoNeedAccepted, nameRoom, database)
 
-        }else if(player == player2){
+        } else if (player == player2) {
             var playerWhoNeedAccepted = player1
             aceitarOuCorrer(playerWhoNeedAccepted, nameRoom, database)
-        }})
-    
+        }
+    })
+
 
 }
 
@@ -83,43 +84,43 @@ export function pedirTruco(player, nameRoom, database){
  * @param  {} nameRoom
  * @param  {} database
  */
-export function verificaTruco(playerTruco, playerAceita, nameRoom, database){
+export function verificaTruco(playerTruco, playerAceita, nameRoom, database) {
     //validador booleano do truco
 
-    if(playerTruco != '' && playerAceita != ''){
-        update(ref(database, `/rooms/${nameRoom}/desk/truco`), {trucoStatus: true});
-        update(ref(database, `/rooms/${nameRoom}/desk`), {scoreRound: 3});
+    if (playerTruco != '' && playerAceita != '') {
+        update(ref(database, `/rooms/${nameRoom}/desk/truco`), { trucoStatus: true });
+        update(ref(database, `/rooms/${nameRoom}/desk`), { scoreRound: 3 });
     }
 }
 
-function identificarQualJogador(winPlayer, player1, player2){
-    if (winPlayer == player1){
+function identificarQualJogador(winPlayer, player1, player2) {
+    if (winPlayer == player1) {
         return 'player1'
 
-    }else if (winPlayer == player2){
+    } else if (winPlayer == player2) {
         return 'player2'
 
     }
 }
 
-function identificarQualJogadorPonto(winPlayer, player1, player2, player1Points, player2Points, point, nameRoom, database){
-    if (winPlayer === player1){
+function identificarQualJogadorPonto(winPlayer, player1, player2, player1Points, player2Points, point, nameRoom, database) {
+    if (winPlayer === player1) {
         var winPoint = point + player1Points;
-        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), { pontos: winPoint })
         console.log('Se aparecer essa imagem, está certo')
         alert(`O jogador ${player1} venceu o jogo`)
-        
-    }else if (winPlayer === player2){
+
+    } else if (winPlayer === player2) {
         var winPoint = point + player2Points;
-        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), {pontos: winPoint})
-        console.log('Se aparecer essa imagem, está certo')            
+        update(ref(database, `/rooms/${nameRoom}/${winPlayer}`), { pontos: winPoint })
+        console.log('Se aparecer essa imagem, está certo')
         alert(`O jogador ${player2} venceu o jogo`)
     }
 }
 
 
-export function verificaQuemGanha(nameRoom, database){
-    get(ref(database, `/rooms/${nameRoom}`)).then((data)=>{
+export function verificaQuemGanha(nameRoom, database) {
+    get(ref(database, `/rooms/${nameRoom}`)).then((data) => {
         const sala = data.val()
         const round1 = sala.desk.round1
         const round2 = sala.desk.round2
@@ -135,35 +136,36 @@ export function verificaQuemGanha(nameRoom, database){
         console.log('Chegou na função verifica quem ganha')
         console.log(winList)
 
-        if (winList.filter((data) => {return data === player1}).length > winList.filter((data) => {return data === player2}).length){
+        if (winList.filter((data) => { return data === player1 }).length > winList.filter((data) => { return data === player2 }).length) {
             var winPoint = point + player1Points
-            update(ref(database, `/rooms/${nameRoom}/player1`), {pontos: winPoint})
+            update(ref(database, `/rooms/${nameRoom}/player1`), { pontos: winPoint })
             alert(`O jogador ${player1} venceu o jogo`)
 
-        }else if (winList.filter((data) => {return data === player1}).length < winList.filter((data) => {return data === player2}).length){
+        } else if (winList.filter((data) => { return data === player1 }).length < winList.filter((data) => { return data === player2 }).length) {
             var winPoint = point + player2Points
-            update(ref(database, `/rooms/${nameRoom}/player2`), {pontos: winPoint})
+            update(ref(database, `/rooms/${nameRoom}/player2`), { pontos: winPoint })
             alert(`O jogador ${player2} venceu o jogo`)
 
-        }else if (winList[0] === "empate" && winList[1] != "empate"){
+        } else if (winList[0] === "empate" && winList[1] != "empate") {
             console.log('Entra no else if')
             const player = identificarQualJogador(winList[1], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[1] === "empate" && winList[0] != "empate"){
+        } else if (winList[1] === "empate" && winList[0] != "empate") {
             console.log('Entra no else if')
             const player = identificarQualJogador(winList[0], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[0] === "empate" && winList[1] === "empate" && winList[2] != "empate"){
+        } else if (winList[0] === "empate" && winList[1] === "empate" && winList[2] != "empate") {
             console.log('Entra no else if')
             const player = identificarQualJogador(winList[2], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
 
-        }else if (winList[2] === "empate" && winList[0] != "empate"){
+        } else if (winList[2] === "empate" && winList[0] != "empate") {
             console.log('Entra no else if')
             const player = identificarQualJogador(winList[0], player1, player2)
             identificarQualJogadorPonto(player, player1, player2, player1Points, player2Points, point, nameRoom, database)
-        }})
+        }
+    })
 }
 
